@@ -1,0 +1,23 @@
+* {
+    font-family: Helvetica;
+}
+
+#WebsiteBody {
+    padding: 20px;
+    height: 75%;
+    display: inline-block;
+}
+
+h1 {
+    margin: 20px;
+    text-align: center;
+}
+
+#navbar {
+    margin: auto;
+    text-align: center;
+}
+
+#footer-button {
+    margin: 5px;
+}
