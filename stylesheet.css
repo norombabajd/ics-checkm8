@@ -1,5 +1,11 @@
 * {
-    font-family: Helvetica;
+    font-family: Inter, Helvetica;
+}
+
+#titlebar {
+    /* https://developer.mozilla.org/en-US/docs/Web/CSS/gradient */
+    background: conic-gradient(#ffd200, #bbdef0);
+    padding: 0.5px;
 }
 
 #WebsiteBody {
@@ -13,9 +19,15 @@ h1 {
     text-align: center;
 }
 
+#createBody p {
+    text-align: center;
+    place-items: center;
+}
+
 #navbar {
     margin: auto;
     text-align: center;
+    background: #efca08;
 }
 
 #footer-button {
