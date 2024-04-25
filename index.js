@@ -1,5 +1,6 @@
 // Project setup derived from supabase examples
 // https://github.com/supabase/examples-archive/tree/main/supabase-js-v1/auth/javascript-auth
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 const supabase = createClient(
   "https://rpnukhbkfykwutyntnkw.supabase.co",
