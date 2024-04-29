@@ -13,5 +13,6 @@ const create = document.getElementById("createaccount");
 
 // https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener
 create.addEventListener("click", async () => {
-  console.log(alert("AHHHH"));
+  const password = document.getElementById("password");
+  console.log(alert(password));
 });
