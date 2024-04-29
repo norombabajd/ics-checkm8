@@ -13,6 +13,11 @@ const create = document.getElementById("createaccount");
 
 // https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener
 create.addEventListener("click", async () => {
-  const password = document.getElementById("password").value;
-  alert(password);
+  const email = document.getElementById("email");
+  const password = document.getElementById("password");
+
+  const { data, error } = await supabase.auth.signUp({
+    email: email,
+    password: password,
+  });
 });
