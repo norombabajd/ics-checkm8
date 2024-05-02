@@ -1,33 +1,30 @@
+<!-- https://developer.mozilla.org/en-US/docs/Web/HTML/Element/select -->
+
 <!doctype html>
 <html>
     <link rel="stylesheet" href="stylesheet.css" />
-    <script type="module" src="dashboard.js"></script>
+    <script src="functions.js"></script>
     <header>
         <div id="titlebar">
-            <h1>Checkm8</h1>
+            <h1>ics-checkm8</h1>
         </div>
 
         <title>ics-checkm8</title>
     </header>
 
-    <div id="WebsiteBody">
-        <body>
-            <h2>Check In</h2>
-            <ul>
-                <div>
-                    <li>Event #1</li>
-                    <button>Check In</button>
-                </div>
-                <div>
-                    <li>Event #2</li>
-                    <button>Check In</button>
-                </div>
-                <div>
-                    <li>Event #3</li>
-                    <button>Check In</button>
-                </div>
-            </ul>
-        </body>
+    <div id="FormBody">
+        <form text-align: center;">
+            <p>Event</p>
+            <select id="events">
+                <option value="inf124">INF 124</option>
+                <option value="cs161">CS 161</option>
+                <option value="hackathon">Hackathon</option>
+              </select>
+              <p>Passphrase</p>
+              <input id="passphrase"></inpuit>
+              <p> Your current location is: Humanities Instructional Building</p>
+            <button>submit</button>
+        </form>
     </div>
 
     <footer>

@@ -2,10 +2,25 @@
     font-family: Inter, Helvetica;
 }
 
+h1 {
+    margin: 20px;
+    text-align: center;
+}
+
 #titlebar {
     /* https://developer.mozilla.org/en-US/docs/Web/CSS/gradient */
     background: conic-gradient(#ffd200, #bbdef0);
     padding: 0.5px;
+}
+
+#navbar {
+    margin:1px;
+    text-align: center;
+    background: #efca08;
+}
+
+#footer-button {
+    margin: 5px;
 }
 
 #WebsiteBody {
@@ -14,22 +29,9 @@
     display: inline-block;
 }
 
-h1 {
-    margin: 20px;
+#FormBody {
+    padding: 20px;
+    height: 75%;
     text-align: center;
 }
 
-#createBody p {
-    text-align: center;
-    place-items: center;
-}
-
-#navbar {
-    margin: auto;
-    text-align: center;
-    background: #efca08;
-}
-
-#footer-button {
-    margin: 5px;
-}
