@@ -25,9 +25,9 @@ h1 {
 
 #WebsiteBody {
     padding: 20px;
-    height: 75%;
-    display: inline-block;
-}
+    display: flex;
+    flex-direction: column;
+    height: 100vh;} 
 
 #FormBody {
     padding: 20px;
@@ -36,28 +36,23 @@ h1 {
 }
 
 .greybody {
-      display: left; /* Use flexbox to center the content */
-      justify-content: center; /* Center horizontally */
-      align-items: flex-end; /* Align items at the bottom */
-      min-width: 80lvh; /* Ensure the body takes up at least the full viewport height */
-      margin: 0; /* Remove default margin */
-      padding: 0; /* Remove default padding */
-    }
+    flex: 1;
+    width: 95%;
+    margin: 20px;
+    display: flex;
+}
+
 
 .grey-box {
-     background-color: #f0f0f0; /* Grey background color */
-      padding: 20px; /* Padding around the text inside the box */
-      border-radius: 5px; /* Rounded corners for the box */
-      width: 110%; /* Set a maximum width for the box */
-      margin-bottom: 20px; /* Add cushion at the bottom */
-    }
+     background-color: #f0f0f0; 
+      padding: 10px; 
+      border-radius: 25px; 
+      margin: 15px;
+      padding-right: 30px;
+}
 
 .right-button {
-      margin-left: 10px; /* Add space between the button and the paragraph */
-    }
-
-.greybody p {
-      margin: 0; /* Remove default margin for the paragraph */
-      flex-grow: 1; /* Allow the paragraph to grow and take up remaining space */
-    }
+  float: right;
+  padding-right: 10px;
+}
 
