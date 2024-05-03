@@ -51,8 +51,20 @@ h1 {
       padding-right: 30px;
 }
 
+.button-box {
+     background-color: #f0f0f0; 
+      padding: 10px; 
+      border-radius: 25px; 
+      margin: 15px;
+  
+}
+
 .right-button {
   float: right;
   padding-right: 10px;
 }
 
+.centered-form {
+  width: fit-content; 
+  margin: 50px auto; 
+}

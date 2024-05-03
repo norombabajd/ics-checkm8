@@ -1,0 +1,6 @@
+
+.flex-container {
+  display: flex;
+  align-items: center; /* Vertically center content */
+  justify-content: space-between; /* Distribute horizontally */
+}
