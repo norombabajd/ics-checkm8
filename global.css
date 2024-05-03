@@ -35,3 +35,29 @@ h1 {
     text-align: center;
 }
 
+.greybody {
+      display: left; /* Use flexbox to center the content */
+      justify-content: center; /* Center horizontally */
+      align-items: flex-end; /* Align items at the bottom */
+      min-width: 80lvh; /* Ensure the body takes up at least the full viewport height */
+      margin: 0; /* Remove default margin */
+      padding: 0; /* Remove default padding */
+    }
+
+.grey-box {
+     background-color: #f0f0f0; /* Grey background color */
+      padding: 20px; /* Padding around the text inside the box */
+      border-radius: 5px; /* Rounded corners for the box */
+      width: 110%; /* Set a maximum width for the box */
+      margin-bottom: 20px; /* Add cushion at the bottom */
+    }
+
+.right-button {
+      margin-left: 10px; /* Add space between the button and the paragraph */
+    }
+
+.greybody p {
+      margin: 0; /* Remove default margin for the paragraph */
+      flex-grow: 1; /* Allow the paragraph to grow and take up remaining space */
+    }
+
