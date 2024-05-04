@@ -24,10 +24,11 @@ h1 {
 }
 
 #WebsiteBody {
-    padding: 20px;
+    padding: 10px;
     display: flex;
     flex-direction: column;
-    height: 100vh;} 
+    height: 60vh;
+} 
 
 #FormBody {
     padding: 20px;
@@ -42,13 +43,22 @@ h1 {
     display: flex;
 }
 
-
 .grey-box {
      background-color: #f0f0f0; 
       padding: 10px; 
       border-radius: 25px; 
       margin: 15px;
       padding-right: 30px;
+      width: 100%;
+}
+
+.grey-card {
+    background-color: #f0f0f0; 
+     padding: 10px; 
+     border-radius: 25px; 
+     margin: 15px;
+     padding: 20px;
+     width: 30%;
 }
 
 .button-box {
@@ -64,7 +74,7 @@ h1 {
   padding-right: 10px;
 }
 
-.centered-form {
-  width: fit-content; 
-  margin: 50px auto; 
+.center-list {
+    padding: 0;
+    display: inline-flex;
 }

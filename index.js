@@ -22,5 +22,5 @@ create.addEventListener("click", () => {
     provider: 'google'
   }) */
   
-  window.location.href = '/dashboard.html'
+  window.location.href = '/pages/Dashboard/dashboard.html'
 });
