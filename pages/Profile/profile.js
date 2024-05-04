@@ -3,10 +3,7 @@
 // const { data: { user } } = await supabase.auth.getUser()
 // console.log(data);
 
-
-
-
-// Kevin  commented out the above because it prevented the functions to run
+// Kevin commented out the above because it prevented the functions to run
 window.addEventListener('DOMContentLoaded', () => {
     showSubMenu('general');
   });
