@@ -34,3 +34,21 @@
     font-size: 18px;
     padding: 5px;
 }
+
+.event-card {
+    border-radius: 15px;
+    border-style: none;
+    background-color: #EFCA08;
+    height: 210px;
+    width: 290px;
+    padding: 25px;
+}
+
+#cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-gap: 50px;
+    max-width: 1900px;
+    padding: 40px;
+    justify-items: center;
+}
