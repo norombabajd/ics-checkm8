@@ -1,6 +1,6 @@
 function Header() {
     return <header>
-    <div id="navbar" class="flex justify-between p-5 bg-[#BBDEF0]">
+    <div id="" class="flex justify-between p-5 bg-[#BBDEF0]">
       <div>
         <b className="text-lg">checkm8</b>
       </div>

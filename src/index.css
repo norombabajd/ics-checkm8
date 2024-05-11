@@ -15,3 +15,90 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+h1 {
+  margin: 20px;
+  text-align: center;
+}
+
+#titlebar {
+  /* https://developer.mozilla.org/en-US/docs/Web/CSS/gradient */
+  background: conic-gradient(#ffd200, #bbdef0);
+  padding: 0.5px;
+}
+
+#navbar {
+  margin:1px;
+  text-align: center;
+  background: #efca08;
+}
+
+#footer-button {
+  margin: 5px;
+  
+}
+
+#WebsiteBody {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  height: 60vh;
+} 
+
+#FormBody {
+  padding: 20px;
+  height: 75%;
+  text-align: center;
+}
+
+.greybody {
+  flex: 1;
+  width: 95%;
+  margin: 20px;
+  display: flex;
+}
+
+.grey-box {
+   background-color: #f0f0f0; 
+    padding: 10px; 
+    border-radius: 25px; 
+    margin: 15px;
+    padding-right: 30px;
+    width: 100%;
+}
+
+.grey-card {
+  background-color: #f0f0f0; 
+   padding: 10px; 
+   border-radius: 25px; 
+   margin: 15px;
+   padding: 20px;
+   width: 30%;
+}
+
+.button-box {
+   background-color: #f0f0f0; 
+    padding: 10px; 
+    border-radius: 25px; 
+    margin: 15px;
+
+}
+
+.login-box {
+  background-color: #f0f0f0; 
+  padding: 10px; 
+  border-radius: 25px; 
+  margin: 15px;
+  text-align: center;
+  align-items: center;
+}
+
+.right-button {
+float: right;
+padding-right: 10px;
+}
+
+.center-list {
+  padding: 0;
+  display: inline-flex;
+}
