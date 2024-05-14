@@ -16,10 +16,6 @@ code {
     monospace;
 }
 
-h1 {
-  margin: 20px;
-  text-align: center;
-}
 
 #titlebar {
   /* https://developer.mozilla.org/en-US/docs/Web/CSS/gradient */
@@ -31,11 +27,6 @@ h1 {
   margin:1px;
   text-align: center;
   background: #efca08;
-}
-
-#footer-button {
-  margin: 5px;
-  
 }
 
 #WebsiteBody {
@@ -86,11 +77,10 @@ h1 {
 
 .login-box {
   background-color: #f0f0f0; 
-  padding: 10px; 
   border-radius: 25px; 
-  margin: 15px;
   text-align: center;
   align-items: center;
+  padding: 5px;
 }
 
 .right-button {

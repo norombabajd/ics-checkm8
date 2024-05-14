@@ -1,16 +1,16 @@
+import {Link} from "react-router-dom";
+
 function Header() {
     return <header>
-    <div id="" class="flex justify-between p-5 bg-[#BBDEF0]">
-      <div>
-        <b className="text-lg">checkm8</b>
-      </div>
+    <div id="" class="flex justify-between p-2 w-full bg-[#BBDEF0]">
+      <Link className="m-2 content-evenly font-bold">checkm8</Link>
       <div>
         {/* to do: routing */}
-        <nav className="space-x-4 content-evenly">
-        <button id="footer-button">Dashboard</button>
-            <button id="footer-button">Check-in</button>
-            <button id="footer-button">Menu</button>
-            <button id="footer-button">Profile</button>
+        <nav className="space-x-4 m-2 content-evenly">
+          <Link to="/">Home</Link>
+          <Link to="">Check-in</Link>
+          <Link to="">Menu</Link>
+          <Link to="">Profile</Link>
         </nav>
       </div>
 

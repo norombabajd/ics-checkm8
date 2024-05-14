@@ -1,8 +1,13 @@
 import './dashboard.css';
 import Header from '../components/Heading'
-import {Link, Outlet} from "react-router-dom";
+import {Link} from "react-router-dom";
+import React, { useState } from 'react';
+import supabase from '../api/supabase';
 
 function Dashboard() {
+
+  const [count, setCount] = useState(0);
+
   return (
     <div className="App">
       <Header/>
