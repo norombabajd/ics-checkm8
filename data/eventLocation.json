@@ -1,0 +1,48 @@
+[
+    {
+        "FarLocation": {
+            "place_id": 353188886,
+            "licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+            "osm_type": "way",
+            "osm_id": 10519529,
+            "lat": "38.50664362451523",
+            "lon": "-121.48708448770492",
+            "category": "place",
+            "type": "house",
+            "place_rank": 30,
+            "importance": 9.99999999995449e-06,
+            "addresstype": "place",
+            "name": "",
+            "display_name": "2251, 50th Avenue, Golf Course Terrace, Cordova, Sacramento, Sacramento County, California, 95822, United States",
+            "boundingbox": [
+                "38.5065936",
+                "38.5066936",
+                "-121.4871345",
+                "-121.4870345"
+            ]
+        }
+    },
+    {
+        "CloseLocation": {
+            "place_id": 306608827,
+            "licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+            "osm_type": "way",
+            "osm_id": 158053311,
+            "lat": "33.6432477",
+            "lon": "-117.8418650360872",
+            "category": "building",
+            "type": "university",
+            "place_rank": 30,
+            "importance": 9.99999999995449e-06,
+            "addresstype": "building",
+            "name": "Donald Bren Hall",
+            "display_name": "Donald Bren Hall, Ring Mall, University of California, Irvine, Irvine, Orange County, California, 92697, United States",
+            "boundingbox": [
+                "33.6429949",
+                "33.6435517",
+                "-117.8422939",
+                "-117.8414806"
+            ]
+        }
+    }
+]
