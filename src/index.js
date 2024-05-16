@@ -69,7 +69,7 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <BrowserRouter>
     <Routes>
-    <Route path="/" element={<Dashboard />} />
+      <Route path="/" element={<Dashboard />} />
       <Route path="/attendence" element={<Attendence />} />
       <Route path="/check-in" element={<CheckIn />} />
       <Route path="/create" element={<Create />} />

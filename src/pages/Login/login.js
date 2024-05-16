@@ -1,5 +1,5 @@
 import Header from '../../components/Heading'
-import Footer from '../../components/Footer';
+
 import supabase from '../../api/supabase';
 import GoogleButton from '../../assets/google-login.svg';
 
@@ -35,7 +35,7 @@ function Login() {
           <div className='text-center'><button onClick={GoogleAuth}><img src={GoogleButton} alt="Continue with Google" /></button></div>
         </div>
       </div>
-      <Footer />
+
     </div>
   );
 }
