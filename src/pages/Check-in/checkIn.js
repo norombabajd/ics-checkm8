@@ -11,8 +11,6 @@ const eventOptions = [
 ];
 
 
-
-
 function CheckIn() {
 
     const [formData, setFormData] = useState({
@@ -40,6 +38,7 @@ function CheckIn() {
         <div>
             <Header />
             <form onSubmit={handleSubmit} className="form-container">
+                <h1>Check Into Event</h1>
                 <label className="label-container">
                     Select Event
                     <select value={formData.event} onChange={handleDropdownChange} className="input-field">
@@ -55,7 +54,7 @@ function CheckIn() {
                     Passphrase
                     <input type="password" value={formData.passphrase} onChange={handlePassphraseChange} className="input-field" />
                 </label>
-                <button type="submit" className="submit-button">
+                <button class='create-button' type="submit">
                     Submit
                 </button>
             </form>

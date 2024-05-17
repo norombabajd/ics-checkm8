@@ -1,0 +1,102 @@
+.container {
+    background-color: white;
+    width: 100%;
+}
+
+h2 {
+    font-size: 1.5em;
+    margin: 10px;
+}
+
+.input-group {
+    display: flex;
+    align-items: center;
+    margin: 20px;
+}
+
+input[type="text"] {
+    width: 80%;
+    padding: 10px;
+    border: 2px solid #ddd;
+    border-radius: 5px;
+    margin-right: 10px;
+    font-size: 1em;
+    box-sizing: border-box;
+}
+
+.add-button {
+    margin-top: 10px;
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    background-color: #00A6A6;
+    border-color: #00A6A6;
+    border-style: solid;
+    color: white;
+    font-weight: 700;
+    border-radius: 15px;
+    font-size: 18px;
+    margin: 0 auto;
+    width: 50%;
+    display: block;
+
+}
+
+.add-button:hover {
+    background-color: white;
+    font-weight: 700;
+    border: 1px solid#00A6A6;
+    color: #00A6A6;
+
+}
+
+.attendees-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+    padding: 20px;
+}
+
+.attendee-card {
+    padding: 10px;
+    background-color: #EFCA08;
+    border-radius: 25px;
+    text-align: center;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    /* Added styles for text overflow */
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+/* Adjust font size and line height for text elements */
+.attendee-card span {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 16px;
+    /* Adjust font size as needed */
+    line-height: 1.5;
+    /* Adjust line height as needed */
+}
+
+/* Add styles for the Remove button */
+.attendee-card button {
+    margin-top: 10px;
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    background-color: white;
+    border-color: #00A6A6;
+    border-style: solid;
+    color: #00A6A6;
+    font-weight: 700;
+    border-radius: 15px;
+    font-size: 18px;
+    display: block;
+    width: 50%;
+    margin: 0 auto;
+}
+
+.attendee-card button:hover {
+    background-color: #00A6A6;
+    border: 1px solid #ccc;
+    color: white;
+}

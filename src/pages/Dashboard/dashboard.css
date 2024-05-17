@@ -47,7 +47,8 @@ body {
   border-color: #00A6A6;
   border-style: solid;
   color: #00A6A6;
-
+  border: 2px solid #00A6A6;
+  font-weight: 700;
   border-radius: 15px;
   font-size: 18px;
   display: flex;
@@ -56,15 +57,11 @@ body {
 }
 
 .cardbutton:hover {
+  border: 2px solid #00A6A6;
   background-color: #00A6A6;
-  border: none;
   color: white;
-  font-weight: 700;
-  border-radius: 15px;
-  font-size: 18px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+
+
 }
 
 .cardbuttonGrid {
