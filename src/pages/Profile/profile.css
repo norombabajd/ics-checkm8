@@ -1,0 +1,40 @@
+h2 {
+    font-size: 28px;
+}
+
+form {
+    margin-top: 25px;
+}
+
+.profilePage {
+    height: 100%;
+}
+
+.columns {
+    margin: 25px;
+    display: flex;
+    height: 100%;
+}
+  
+.leftColumn {
+    flex: 1; 
+}
+
+.rightColumn {
+    flex: 2; 
+}
+
+.columnSeparator {
+    width: 2px;
+    background-color: black;
+    margin-right: 25px;
+}
+
+.name {
+    display: flex;
+
+}
+
+.lastName {
+    margin-left: 50px;
+}
