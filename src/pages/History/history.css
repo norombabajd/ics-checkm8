@@ -1,0 +1,44 @@
+.history-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+    padding: 20px;
+}
+
+.history-card {
+    padding: 10px;
+    background-color: #EFCA08;
+    padding: 10px;
+    border-radius: 25px;
+    margin: 15px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    display: center;
+    justify-content: center;
+    align-items: center;
+}
+
+.share-button {
+    margin-top: 10px;
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    background-color: white;
+    border-color: #00A6A6;
+    border-style: solid;
+    color: #00A6A6;
+    font-weight: 700;
+    border-radius: 15px;
+    font-size: 18px;
+    margin: 0 auto;
+    width: 50%;
+    display: block;
+
+}
+
+.share-button:hover {
+    background-color: #00A6A6;
+    font-weight: 700;
+    border: 1px solid #ccc;
+    color: white;
+}

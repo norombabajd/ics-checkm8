@@ -47,8 +47,9 @@ body {
   border-color: #00A6A6;
   border-style: solid;
   color: #00A6A6;
-
-  border-radius: 15px;
+  border: 2px solid #00A6A6;
+  font-weight: 700;
+  border-radius: 5px;
   font-size: 18px;
   display: flex;
   justify-content: center;
@@ -56,15 +57,11 @@ body {
 }
 
 .cardbutton:hover {
+  border: 2px solid #00A6A6;
   background-color: #00A6A6;
-  border: none;
   color: white;
-  font-weight: 700;
-  border-radius: 15px;
-  font-size: 18px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+
+
 }
 
 .cardbuttonGrid {
@@ -87,11 +84,11 @@ body {
 }
 
 .event-card {
-  border-radius: 15px;
+  border-radius: 8px;
   border-style: none;
   background-color: #EFCA08;
-  height: 210px;
-  width: 290px;
+  min-height: 220px;
+  min-width: 290px;
   padding: 25px;
   text-align: left;
 }
@@ -175,4 +172,9 @@ h1 {
   margin: 20px;
   text-align: center;
   font-size: 30px
+}
+
+h3 {
+  font-weight: bold;
+  font-size: 1.2em;
 }

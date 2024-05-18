@@ -3,14 +3,13 @@ import Header from '../../components/Heading'
 import { Link } from "react-router-dom";
 import React, { useState } from 'react';
 import './checkIn.css'
+import '../../index.css'
 
 const eventOptions = [
     { id: 'EventA', name: 'Event A' },
     { id: 'EventB', name: 'Event B' },
     { id: 'EventC', name: 'Event C' },
 ];
-
-
 
 
 function CheckIn() {
@@ -39,7 +38,10 @@ function CheckIn() {
     return (
         <div>
             <Header />
-            <form onSubmit={handleSubmit} className="form-container">
+            <div className='flex flex-col max-w px-36 py-36 items-center'>
+                <div className='card rounded-xl flex flex-col gap-2 p-10 shadow-lg'>
+                <form onSubmit={handleSubmit} className="form-container">
+                <h1>Check-in</h1>
                 <label className="label-container">
                     Select Event
                     <select value={formData.event} onChange={handleDropdownChange} className="input-field">
@@ -55,12 +57,15 @@ function CheckIn() {
                     Passphrase
                     <input type="password" value={formData.passphrase} onChange={handlePassphraseChange} className="input-field" />
                 </label>
-                <button type="submit" className="submit-button">
+                <p>Your current location is: **location goes here**</p>
+                <button class='create-button' type="submit">
                     Submit
                 </button>
             </form>
-
-
+                
+                    
+                </div>
+            </div>            
         </div>
 
     );

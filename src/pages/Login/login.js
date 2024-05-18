@@ -35,7 +35,6 @@ function Login() {
           <div className='text-center'><button onClick={GoogleAuth}><img src={GoogleButton} alt="Continue with Google" /></button></div>
         </div>
       </div>
-
     </div>
   );
 }

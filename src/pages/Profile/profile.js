@@ -4,7 +4,6 @@ import InputBox from '../../components/InputBox/InputBox';
 import Toggle from '../../components/Toggle/Toggle';
 import "./profile.css";
 
-
 const Profile = () => {
     const [profileInfo, setProfileInfo] = useState({
         firstName: '',
@@ -35,7 +34,7 @@ const Profile = () => {
             age: ''
         });
     }
-
+    
     return (
         <div className="profilePage">
             <Header />

@@ -1,6 +1,6 @@
+
 import './dashboard.css';
 import Header from '../../components/Heading'
-
 import { Link } from "react-router-dom";
 import React, { useState } from 'react';
 import supabase from '../../../src/api/supabase.js';
@@ -13,48 +13,52 @@ const events = [
     location: 'Corona Del Mar, CA',
     date: '05/29/24',
     time: '10:00am-12:00pm',
-    buttons: ['History']
+    buttons: 'History'
   },
   {
     name: 'Running Club',
     location: 'Newport Beach, CA',
     date: '05/20/24',
     time: '8:00am-11:00am',
-    buttons: ['Attendance']
+    buttons: 'Attendance'
   },
   {
     name: 'Web Development Conference',
     location: 'Boston, MA',
     date: '06/02/24',
     time: '9:00am-8:00pm',
-    buttons: ['History']
+    buttons: 'History'
   },
   {
     name: 'Running Club',
     location: 'Corona Del Mar, CA',
     date: '06/17/24',
     time: '8:00am-11:00am',
-    buttons: ['History']
+    type: 'History'
   },
   {
     name: 'Coffee & Cars',
     location: 'Costa Mesa, CA',
     date: '06/20/24',
     time: '10:00am-12:00pm',
-    buttons: ['History']
+    type: 'createdEvent'
   }
 ];
 
 const EventCard = ({ event }) => {
   return (
     <div className="event-card">
-      <h3>{event.name}</h3>
+      <h3 className='text-bold'>{event.name}</h3>
       <p>{event.location}</p>
       <p>{event.date}</p>
       <p>{event.time}</p>
-      <div class="cardbuttonGrid">
+      <div class="cardbuttonGrid mt-2">
         <Link class="cardbutton" to="/check-in">Check In</Link>
-        <Link class="cardbutton" to="/history">History</Link>
+        {event.type === "createdEvent" ? (
+          <Link className="cardbutton" to="/attendence">Attendance</Link>
+        ) : (
+          <Link className="cardbutton" to="/history">History</Link>
+        )}
       </div>
     </div>
   );
