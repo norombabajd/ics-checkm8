@@ -46,7 +46,7 @@ function Attendance() {
                         type="text"
                         value={attendeeName}
                         onChange={(e) => setAttendeeName(e.target.value)}
-                        placeholder="Enter attendee name"
+                        placeholder="Enter attendee email"
                     />
                     <button class='add-button' onClick={addAttendee}>Add Attendee</button>
                 </div>

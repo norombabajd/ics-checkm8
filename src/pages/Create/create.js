@@ -1,7 +1,7 @@
 import Header from '../../components/Heading'
-import { Link } from "react-router-dom";
 import React, { useState } from 'react';
 import './create.css'
+import '../../index.js'
 
 
 function Create() {
@@ -34,29 +34,67 @@ function Create() {
     return (
         <div>
             <Header />
+            <div className='flex flex-col max-w px-36 py-36 items-center'>
+            <div className='card rounded-xl flex flex-col gap-2 p-10 shadow-lg'>
+            <h1>Create Event</h1>
+
             <form onSubmit={handleSubmit} className="form-container">
-                <label className="label-container">
-                    Name of Event
-                    <input type="text" name="eventName" value={formData.eventName} onChange={handleChange} className="input-field" />
-                </label>
-                <label className="label-container">
-                    Time of Event
-                    <input type="text" name="eventTime" value={formData.eventTime} onChange={handleChange} className="input-field" />
-                </label>
-                <label className="label-container">
+                
+                <p className="w-full">
+                    Name
+                    <input  name="eventName" value={formData.eventName} onChange={handleChange} className="input-field" />
+                </p>
+
+                <p className="w-full py-1">
+                    Check-in Date & Time
+                    <input type="datetime-local" name="eventTime" value={formData.eventTime} onChange={handleChange} className="input-field" />
+                </p>
+
+                <p className="w-full py-1">
+                    Check-in Closing Date & Time
+                    <input type="datetime-local" name="eventTime" value={formData.eventTime} onChange={handleChange} className="input-field" />
+                </p>
+
+                <p className="w-full py-1"> 
                     Location
-                    <input type="text" name="eventLocation" value={formData.eventLocation} onChange={handleChange} className="input-field" />
-                </label>
-                <label className="label-container">
+                    <input  name="eventLocation" value={formData.eventLocation} onChange={handleChange} className="input-field" />
+                </p>
+                
+                <p className="w-full py-1">
                     Keyword
-                    <input type="text" name="eventKeyword" value={formData.eventKeyword} onChange={handleChange} className="input-field" />
-                </label>
+                    <input  name="eventKeyword" value={formData.eventKeyword} onChange={handleChange} className="input-field" />
+                </p>
+
+
+                <div className='w-full'>
+
+                <p className="flex grid"> Additional Options
+                </p>
+
+                    <div>
+                        <input type="checkbox" id="" name="" value=""></input>
+                        <label> This event is for mature audiences (18+).</label>
+                    </div>
+
+                    <div>
+                        <input type="checkbox" id="" name="" value=""></input>
+                        <label> Allow early check-in (30min before).</label>
+                    </div>
+                
+                
+                </div>
+                
+                
+                
+                
+                
+
                 <button type="submit" className="submit-button">
                     Submit
                 </button>
             </form>
-
-
+            </div>
+            </div> 
 
 
         </div>

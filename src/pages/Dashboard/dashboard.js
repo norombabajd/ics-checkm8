@@ -1,3 +1,4 @@
+
 import './dashboard.css';
 import Header from '../../components/Heading'
 import { Link } from "react-router-dom";
@@ -47,11 +48,11 @@ const events = [
 const EventCard = ({ event }) => {
   return (
     <div className="event-card">
-      <h3>{event.name}</h3>
+      <h3 className='text-bold'>{event.name}</h3>
       <p>{event.location}</p>
       <p>{event.date}</p>
       <p>{event.time}</p>
-      <div class="cardbuttonGrid">
+      <div class="cardbuttonGrid mt-2">
         <Link class="cardbutton" to="/check-in">Check In</Link>
         {event.type === "createdEvent" ? (
           <Link className="cardbutton" to="/attendence">Attendance</Link>
