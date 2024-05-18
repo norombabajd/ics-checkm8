@@ -1,0 +1,28 @@
+.toggle {
+    width: 70px;
+    height: 30px;
+    background-color: lightgray;
+    border-radius: 15px;
+    position: relative;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .toggle.active {
+    background-color: #cdfdfd;
+  }
+
+  .circle {
+    width: 26px;
+    height: 26px;
+    top: 2px;
+    left: 2px;
+    border-radius: 50%;
+    background-color: #00A6A6;
+    transition: transform 0.3s ease;
+    position: absolute;
+  }
+  
+  .toggle.active .circle {
+    transform: translateX(40px);
+  }

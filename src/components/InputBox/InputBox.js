@@ -1,21 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
+import './InputBox.css';
 
-function InputBox({ label, name, value = '', onChange, required, width }) {
-  const handleChange = (event) => {
-    if (onChange) {
-      onChange(event.target.value);
-    }
-  }
+function InputBox({ label, name, val, onChange, required, width }) {
+  const [value, setValue] = useState('');
+  // const handleChange = (event) => {
+  //   if (onChange) {
+  //     setValue(event.target.value);
+  //   }
+  // }
 
   return (
-    <div>
+    <div className="input-component">
       <label className="input-label">{label}</label>
       <input 
+        className="input-field"
+        style={{width: width}}
         type="text" 
         name={name}
-        value={value} 
-        onChange={handleChange} 
-        className={`input-field ${required ? 'required' : ''}`} 
+        value={val} 
+        onChange={onChange} 
         {...(required && { required: true })}
       />
     </div>

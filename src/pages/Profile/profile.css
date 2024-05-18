@@ -32,9 +32,43 @@ form {
 
 .name {
     display: flex;
+}
 
+.gender-age {
+    display: flex;
+}
+
+.age {
+    margin-left: 50px;
 }
 
 .lastName {
     margin-left: 50px;
+}
+
+.settingItem {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    margin-right: 35px;
+    border-top: 1px solid darkgray;
+    border-bottom: 1px solid darkgray;
+}
+
+.settingItems {
+    padding-top: 25px;
+}
+
+.submitButton {
+    background-color: #00A6A6;
+    border-color: #00A6A6;
+    border-style: solid;
+    color: white;
+    height: 50px;
+    width: 160px;
+    border-radius: 8px;
+    font-size: 18px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
