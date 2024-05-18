@@ -1,64 +1,109 @@
-import Header from '../../components/Heading'
 import React, { useState } from 'react';
-import '../../index.js'
+import Header from '../../components/Heading';
+import InputBox from '../../components/InputBox/InputBox';
+import Toggle from '../../components/Toggle/Toggle';
+import "./profile.css";
 
+const Profile = () => {
+    const [profileInfo, setProfileInfo] = useState({
+        firstName: '',
+        lastName: '', 
+        email: '',
+        password: '',
+        gender: '',
+        age: ''
+    })
 
-function Profile() {
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setProfileInfo({
+          ...profileInfo,
+          [name]: value
+        });
+    }
 
-    const handleSubmit = (e) => {        
-        // Handle form submission logic here
-    };
-    return (
-        <div>
-            <Header />
-            <div className='flex flex-col max-w px-36 py-36 items-center'>
-            <div className='card rounded-xl flex flex-col gap-2 p-10 shadow-lg'>
-            <h1>Profile</h1>
-            
-            <p className="w-full">
-                    Name
-                    <input  name="eventName" value='Peter the Anteater' className="input-field" />
-            </p>
-
-            <p className="w-full py-1">
-                    Date of Birth
-                    <input type="date" name="eventTime" value='1965-10-04' className="input-field" />
-                </p>
-
-                <p className="w-full">
-                    Email
-                    <input type="email" name="eventName" value='panteatr@uci.edu' className="input-field" />
-                </p>
-
-                <div>
-                        <input type="checkbox" id="" name="" value=""></input>
-                        <label> Allow notifications to be sent.</label>
-                    </div>
-
-                <p className="w-full">
-                    Change Password
-                    <input type="password" name="eventName" value='' className="input-field" />
-                </p>
-
-
-            <form className="form-container">
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        console.log('Form submitted!', profileInfo);
+        setProfileInfo({
+            firstName: '',
+            lastName: '', 
+            email: '',
+            password: '',
+            gender: '',
+            age: ''
+        });
+    }
     
-                
-                
-                
-                
-                
-
-                <button type="submit" className="submit-button">
-                    Save Changes
-                </button>
-            </form>
+    return (
+        <div className="profilePage">
+            <Header />
+            <div className="columns">
+                <div className="leftColumn">
+                    <h2>Settings</h2>
+                    <div className="settingItems">
+                        <div className="settingItem">
+                            <p>App notifications</p>
+                            <Toggle/>
+                        </div>
+                        <div className="settingItem">
+                            <p>Push notifications</p>
+                            <Toggle/>
+                        </div>
+                        <div className="settingItem">
+                            <p>Email notifications</p>
+                            <Toggle/>
+                        </div>
+                        <div className="settingItem">
+                            <p>Location</p>
+                            <Toggle/>
+                        </div>
+                    </div>
+                </div>
+                <div className="columnSeparator"></div>
+                <div className="rightColumn">
+                    <h2>Account Details</h2>
+                    <form onSubmit={handleSubmit}>
+                        <div className="name">
+                            <div className="firstName">
+                                <label>First Name</label>
+                                <br/>
+                                <InputBox type="text" name="firstName" value={profileInfo.firstName} onChange={handleInputChange} required/>
+                            </div>
+                            <div className="lastName">
+                                <label>Last Name</label>
+                                <br/>
+                                <InputBox type="text" name="lastName" value={profileInfo.lastName} onChange={handleInputChange} required/>
+                            </div>
+                        </div>
+                        <div>
+                            <label>Email</label>
+                            <br/>
+                            <InputBox type="text" name="email" value={profileInfo.email} onChange={handleInputChange} required width="49%"/>
+                        </div>
+                        <div>
+                            <label>Password</label>
+                            <br/>
+                            <InputBox type="text" name="password" value={profileInfo.password} onChange={handleInputChange} required width="49%"/>
+                        </div>
+                        <div className="gender-age">
+                            <div>
+                                <label>Gender</label>
+                                <br/>
+                                <InputBox type="text" name="gender" value={profileInfo.gender} onChange={handleInputChange}/>
+                            </div>
+                            <div className="age">
+                                <label>Age</label>
+                                <br/>
+                                <InputBox type="text" name="age" value={profileInfo.age} onChange={handleInputChange} required/>
+                            </div>
+                        </div>
+                        <button type="submit" className="submitButton">Save Changes</button>
+                    </form>
+                </div>
             </div>
-            </div> 
-
-
         </div>
-
     );
 }
+
 export default Profile;
