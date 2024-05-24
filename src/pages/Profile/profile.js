@@ -1,8 +1,25 @@
-import React, { useState } from 'react';
 import Header from '../../components/Heading';
 import InputBox from '../../components/InputBox/InputBox';
 import Toggle from '../../components/Toggle/Toggle';
 import "./profile.css";
+
+import { supabase } from '../../api/supabase';
+import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+
+
+async function ObtainProfileDemographics(id) {
+    const { data, error } = await supabase
+      .from('user-demographics')
+      .select()
+      .eq('id', id) // assuming 'id' is the column name for user ID
+  
+    if (error) {
+      console.error('Error fetching user data:', error)
+      return null
+    }
+    return data
+  }
 
 const Profile = () => {
     const [profileInfo, setProfileInfo] = useState({
@@ -34,6 +51,42 @@ const Profile = () => {
             age: ''
         });
     }
+
+    const navigate = useNavigate();
+    const [user, setUser] = useState(null);
+    const [age, setAge] = useState('null');
+    const [gender, setGender] = useState('null');
+
+    useEffect(() => {
+        async function GrabUserData() {
+            const { data: { user } } = await supabase.auth.getUser()
+            setUser(user)
+            
+            const { data, error } = await supabase
+            .from('user-demographics')
+            .select()
+            .eq('id', user.id) // assuming 'id' is the column name for user ID
+            
+            setAge(data[0].age);
+            setGender(data[0].gender);
+            
+            console.log(age);
+            console.log(gender);
+        
+        }
+        GrabUserData();
+
+        if (user){
+            const demographics = ObtainProfileDemographics(user.id);
+            
+        }
+
+    }, []);
+
+    // console.log(user);    
+    
+
+
     
     return (
         <div className="profilePage">
@@ -90,12 +143,12 @@ const Profile = () => {
                             <div>
                                 <label>Gender</label>
                                 <br/>
-                                <InputBox type="text" name="gender" value={profileInfo.gender} onChange={handleInputChange}/>
+                                <InputBox type="text" name="gender" value={gender} onChange={handleInputChange}/>
                             </div>
                             <div className="age">
                                 <label>Age</label>
                                 <br/>
-                                <InputBox type="text" name="age" value={profileInfo.age} onChange={handleInputChange} required/>
+                                <InputBox type="text" name="age" value={age} onChange={handleInputChange} required/>
                             </div>
                         </div>
                         <button type="submit" className="submitButton">Save Changes</button>

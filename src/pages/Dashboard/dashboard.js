@@ -1,13 +1,14 @@
 
 import './dashboard.css';
 import Header from '../../components/Heading'
-import { Link } from "react-router-dom";
-import React, { useState } from 'react';
-import supabase from '../../../src/api/supabase.js';
+import { Link, redirect } from "react-router-dom";
+import React, { useState, useEffect } from 'react';
+import { supabase } from "../../api/supabase";
+
+import userid from "../auth/login";
 
 
-
-const events = [
+const dummyevents = [
   {
     name: 'Beach Clean-Up',
     location: 'Corona Del Mar, CA',
@@ -66,7 +67,29 @@ const EventCard = ({ event }) => {
 
 
 function Dashboard() {
-  const [count, setCount] = useState(0);
+  const [event, setEvents] = useState([]);
+  useEffect(() => {
+    async function GrabUserEvents() {
+      const { data: { user } } = await supabase.auth.getUser()
+      var id = user.id;
+      
+      const { data, error } = await supabase
+        .from('events')
+        .select()
+        .eq('creator', id)
+      
+      console.log(data);
+
+      setEvents(data);
+
+    }
+    GrabUserEvents();
+    
+    
+
+}, []);
+
+
   return (
     <div className="App">
       <Header />
@@ -75,13 +98,14 @@ function Dashboard() {
         <div id="heading-buttons">
           <Link to="/create" className="create-event">Create Event</Link>
           <Link to="/history" className="create-event">History</Link>
+          <Link to="/signout" className="create-event">Sign-out</Link>
 
         </div>
       </div>
 
       <div className="events-container">
         <div className="events-grid">
-          {events.map(event => (
+          {event.map(event => (
             <EventCard key={event.name} event={event} />
           ))}
         </div>
