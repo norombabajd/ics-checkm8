@@ -5,90 +5,74 @@ import { Link, redirect } from "react-router-dom";
 import React, { useState, useEffect } from 'react';
 import { supabase } from "../../api/supabase";
 
-import userid from "../auth/login";
 
+const EventCard = ({ event, onDelete }) => {
+  const handleDelete = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('events')
+        .delete()
+        .eq('id', event.id);
 
-const dummyevents = [
-  {
-    name: 'Beach Clean-Up',
-    location: 'Corona Del Mar, CA',
-    date: '05/29/24',
-    time: '10:00am-12:00pm',
-    buttons: 'History'
-  },
-  {
-    name: 'Running Club',
-    location: 'Newport Beach, CA',
-    date: '05/20/24',
-    time: '8:00am-11:00am',
-    buttons: 'Attendance'
-  },
-  {
-    name: 'Web Development Conference',
-    location: 'Boston, MA',
-    date: '06/02/24',
-    time: '9:00am-8:00pm',
-    buttons: 'History'
-  },
-  {
-    name: 'Running Club',
-    location: 'Corona Del Mar, CA',
-    date: '06/17/24',
-    time: '8:00am-11:00am',
-    type: 'History'
-  },
-  {
-    name: 'Coffee & Cars',
-    location: 'Costa Mesa, CA',
-    date: '06/20/24',
-    time: '10:00am-12:00pm',
-    type: 'createdEvent'
-  }
-];
+      if (error) {
+        throw error;
+      }
 
-const EventCard = ({ event }) => {
+      console.log('Event deleted:', data);
+      onDelete(event.id); // Call onDelete function with the deleted event ID
+    } catch (error) {
+      console.error('Error deleting event:', error.message);
+    }
+  };
+
   return (
     <div className="event-card">
       <h3 className='text-bold'>{event.name}</h3>
       <p>{event.location}</p>
       <p>{event.date}</p>
       <p>{event.time}</p>
-      <div class="cardbuttonGrid mt-2">
-        <Link class="cardbutton" to="/check-in">Check In</Link>
+      <div className="cardbuttonGrid mt-2">
+        <Link className="cardbutton" to="/check-in">Check In</Link>
         {event.type === "createdEvent" ? (
-          <Link className="cardbutton" to="/attendence">Attendance</Link>
+          <Link className="cardbutton" to="/attendance">Attendance</Link>
         ) : (
           <Link className="cardbutton" to="/history">History</Link>
         )}
+        <button className="cardbutton" onClick={handleDelete}>Delete Event</button>
       </div>
     </div>
   );
 };
 
 
+
+
 function Dashboard() {
-  const [event, setEvents] = useState([]);
+  const [events, setEvents] = useState([]);
+
   useEffect(() => {
-    async function GrabUserEvents() {
-      const { data: { user } } = await supabase.auth.getUser()
-      var id = user.id;
+    async function grabUserEvents() {
+      const { data: { user } } = await supabase.auth.getUser();
+      const id = user.id || null;
       
       const { data, error } = await supabase
         .from('events')
         .select()
-        .eq('creator', id)
-      
-      console.log(data);
+        .eq('creator', id);
 
-      setEvents(data);
-
+      if (error) {
+        console.error('Error fetching events:', error.message);
+      } else {
+        setEvents(data || []);
+      }
     }
-    GrabUserEvents();
-    
-    
 
-}, []);
+    grabUserEvents();
+  }, []);
 
+  const handleDeleteEvent = (deletedEventId) => {
+    setEvents(events.filter((event) => event.id !== deletedEventId));
+  };
 
   return (
     <div className="App">
@@ -99,20 +83,18 @@ function Dashboard() {
           <Link to="/create" className="create-event">Create Event</Link>
           <Link to="/history" className="create-event">History</Link>
           <Link to="/signout" className="create-event">Sign-out</Link>
-
         </div>
       </div>
 
       <div className="events-container">
         <div className="events-grid">
-          {event.map(event => (
-            <EventCard key={event.name} event={event} />
+          {events.map((event) => (
+            <EventCard key={event.id} event={event} onDelete={handleDeleteEvent} />
           ))}
         </div>
-
       </div>
-
     </div>
   );
 }
+
 export default Dashboard;
