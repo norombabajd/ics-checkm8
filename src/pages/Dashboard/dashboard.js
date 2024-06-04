@@ -4,8 +4,7 @@ import Header from '../../components/Heading'
 import { Link, redirect } from "react-router-dom";
 import React, { useState, useEffect } from 'react';
 import { supabase } from "../../api/supabase";
-
-import userid from "../auth/login";
+import '../../index.css'
 
 
 const dummyevents = [
@@ -71,40 +70,32 @@ function Dashboard() {
   useEffect(() => {
     async function GrabUserEvents() {
       const { data: { user } } = await supabase.auth.getUser()
-      var id = user.id;
-      
-      const { data, error } = await supabase
-        .from('events')
-        .select()
-        .eq('creator', id)
-      
-      console.log(data);
-
-      setEvents(data);
-
+      if (user){
+        var id = user.id;
+        const { data, error } = await supabase
+          .from('events')
+          .select()
+          .eq('creator', id)
+        setEvents(dummyevents);
+      }
     }
     GrabUserEvents();
-    
-    
-
 }, []);
-
-
   return (
     <div className="App">
       <Header />
-      <div id="heading-section">
-        <h1>My Registered Events</h1>
-        <div id="heading-buttons">
-          <Link to="/create" className="create-event">Create Event</Link>
+      <div className="mt-5 mx-5 flex flex-col md:flex-row justify-between">
+        <p className='text-2xl font-bold content-center'>Dashboard</p>
+        <div className='flex flex-col md:flex-row items-center' id="heading-buttons">
+          <Link to="/create" className="create-event">New Event</Link>
           <Link to="/history" className="create-event">History</Link>
           <Link to="/signout" className="create-event">Sign-out</Link>
-
         </div>
+        
       </div>
 
       <div className="events-container">
-        <div className="events-grid">
+        <div className="grid gap-4 lg:grid-cols-3 sm:grid-cols-2">
           {event.map(event => (
             <EventCard key={event.name} event={event} />
           ))}

@@ -23,48 +23,6 @@ import {
 
 
 
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <Dashboard />,
-    // loader: rootLoader,
-    children: [
-      {
-        path: "login",
-        element: <Login />,
-        // loader: teamLoader,
-      },
-      {
-        path: "attendence",
-        element: <Attendence />
-      },
-      {
-        path: "dashboard",
-        element: <Dashboard />
-      },
-      {
-        path: "check-in",
-        element: <CheckIn />
-      },
-      {
-        path: "create",
-        element: <Create />
-      },
-      {
-        path: "menu",
-        element: <Menu />
-      }, {
-        path: "profile",
-        element: <Profile />
-      }, {
-        path: "history",
-        element: <History />
-      }
-
-    ],
-  },
-]);
-
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 root.render(
