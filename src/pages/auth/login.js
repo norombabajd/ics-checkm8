@@ -1,6 +1,6 @@
 import Header from '../../components/Heading'
 
-import {supabase} from '../../api/supabase';
+import { supabase } from '../../api/supabase';
 import GoogleButton from '../../assets/google-login.svg';
 
 export var userid = null;
@@ -15,9 +15,12 @@ async function GoogleAuth() {
     },
   })
 
-  if (data){userid = data}
+  if (data) {
+    userid = data
+  }
 
-  return {data, error}
+
+  return { data, error }
 }
 
 function Login() {

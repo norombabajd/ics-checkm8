@@ -1,22 +1,35 @@
-import Header from '../../components/Heading'
+import Header from '../../components/Heading';
 import React, { useState } from 'react';
-import './create.css'
-import '../../index.js'
+import './create.css';
 import { userid } from '../auth/login.js';
 import Modal from './wrongdate.js';
-
-import { createClient } from '@supabase/supabase-js'
-const supabaseUrl = 'https://rpnukhbkfykwutyntnkw.supabase.co'
-const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJwbnVraGJrZnlrd3V0eW50bmt3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTQwNzU0MzUsImV4cCI6MjAyOTY1MTQzNX0.c9PQXsg2ADUdpNtyY8_eLmKDpfSr11W4jXdHp0BBQG4'
-const supabase = createClient(supabaseUrl, supabaseKey)
+import { supabase } from '../../api/supabase.js';
 
 
-const geocode = async(inputAddress) => {
+
+
+const getUserId = async (formData) => {
+    try {
+        const { data: { user }, error } = await supabase.auth.getUser();
+
+        if (error) {
+            throw error;
+        }
+        const id = user?.id || null;
+        // console.log(id);
+        formData.creator = id;
+    } catch (error) {
+        console.error('Error getting user ID:', error.message);
+    }
+};
+
+
+const geocode = async (inputAddress) => {
     const address = inputAddress;
     const apiKey = '5b3ce3597851110001cf6248cc4f90bfc3004a36ba42040bc0461132';
     const apiUrl = `https://api.openrouteservice.org/geocode/search?api_key=${apiKey}&text=${encodeURIComponent(address)}`;
 
-    try{
+    try {
         const response = await fetch(apiUrl);
         const data = await response.json();
         const location = data.features[0].geometry;
@@ -25,10 +38,11 @@ const geocode = async(inputAddress) => {
         console.error('Error fetching geocode:', error);
         return [0, 0]; // Return default coordinates in case of error
     }
-}
-
+};
 
 function Create() {
+
+
     const [isOpen, setIsOpen] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
 
@@ -45,9 +59,10 @@ function Create() {
         earlyCheck: false,
         attendees: [],
     };
-
     const [formData, setFormData] = useState(initialFormData);
 
+
+    getUserId(formData)
     const handleChange = (e) => {
         const { name, type, checked, value } = e.target;
         setFormData({
@@ -59,7 +74,6 @@ function Create() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // Ensure the date and time fields are correctly formatted
         const { start, end, location } = formData;
         if (new Date(start) >= new Date(end)) {
             setIsOpen(true);
@@ -87,24 +101,27 @@ function Create() {
 
             console.log('Form Data Before Submission:', convertedFormData);
 
-            // Insert data into Supabase
-            const { data, error } = await supabase
-                .from('events')
-                .insert(convertedFormData)
-                .select();
-            if (error) {
-                console.error('Error inserting data:', error);
-            } else {
-                console.log('Data inserted:', data);
-                // Reset form data
-                setFormData(initialFormData);
+            // Make API call to create event
+            const response = await fetch('http://localhost:4000/api/events', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(convertedFormData),
+            });
+
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
             }
+
+            const data = await response.json();
+            console.log('Data inserted:', data);
+            setFormData(initialFormData);
         } catch (error) {
             console.error('Error:', error);
         }
     };
 
-    
     const closeModal = () => {
         setIsOpen(false);
         setErrorMessage('');
@@ -178,7 +195,6 @@ function Create() {
                             <button onClick={closeModal}>Close</button>
                         </div>
                     </Modal>
-
                 </div>
             </div>
         </div>

@@ -1,7 +1,6 @@
-
 import './dashboard.css';
-import Header from '../../components/Heading'
-import { Link, redirect } from "react-router-dom";
+import Header from '../../components/Heading';
+import { Link } from "react-router-dom";
 import React, { useState, useEffect } from 'react';
 import { supabase } from "../../api/supabase";
 
@@ -9,17 +8,17 @@ import { supabase } from "../../api/supabase";
 const EventCard = ({ event, onDelete }) => {
   const handleDelete = async () => {
     try {
-      const { data, error } = await supabase
-        .from('events')
-        .delete()
-        .eq('id', event.id);
+      const response = await fetch(`http://localhost:4000/api/events/${event.id}`, {
+        method: 'DELETE',
+      });
 
-      if (error) {
-        throw error;
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
       }
 
+      const data = await response.json();
       console.log('Event deleted:', data);
-      onDelete(event.id); // Call onDelete function with the deleted event ID
+      onDelete(event.id);
     } catch (error) {
       console.error('Error deleting event:', error.message);
     }
@@ -44,17 +43,14 @@ const EventCard = ({ event, onDelete }) => {
   );
 };
 
-
-
-
-function Dashboard() {
+const Dashboard = () => {
   const [events, setEvents] = useState([]);
 
   useEffect(() => {
     async function grabUserEvents() {
       const { data: { user } } = await supabase.auth.getUser();
       const id = user.id || null;
-      
+      console.log(id)
       const { data, error } = await supabase
         .from('events')
         .select()
@@ -62,11 +58,11 @@ function Dashboard() {
 
       if (error) {
         console.error('Error fetching events:', error.message);
+
       } else {
         setEvents(data || []);
       }
     }
-
     grabUserEvents();
   }, []);
 
