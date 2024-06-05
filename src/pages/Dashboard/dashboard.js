@@ -17,7 +17,6 @@ const EventCard = ({ event, onDelete }) => {
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
-
       const data = await response.json();
       console.log('Event deleted:', data);
       onDelete(event.id);
@@ -65,7 +64,9 @@ const EventCard = ({ event, onDelete }) => {
 
 const Dashboard = () => {
   const [events, setEvents] = useState([]);
-
+ const handleDeleteEvent = (deletedEventId) => {
+    setEvents(events.filter((event) => event.id !== deletedEventId));
+  };
   useEffect(() => {
     async function grabUserEvents() {
       const { data: { user } } = await supabase.auth.getUser();
@@ -83,11 +84,9 @@ const Dashboard = () => {
       }
     }
     grabUserEvents();
-  }, []);
+  }, [handleDeleteEvent]);
 
-  const handleDeleteEvent = (deletedEventId) => {
-    setEvents(events.filter((event) => event.id !== deletedEventId));
-  };
+ 
 
   return (
     <div className="App">

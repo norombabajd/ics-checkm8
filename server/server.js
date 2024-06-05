@@ -17,8 +17,28 @@ const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS
 const supabase = createClient(supabaseUrl, supabaseKey)
 
 // Endpoint to delete an event
+
+async function deleteRowsByEventId(eventId) {
+  try {
+    const { data, error } = await supabase
+      .from('attendee') // Replace with your table name
+      .delete()
+      .eq('eventID', eventId); // Replace 'eventid' with the actual column name
+
+    if (error) {
+      throw error;
+    }
+
+    console.log('Rows deleted:', data);
+  } catch (error) {
+    console.error('Error deleting rows:', error.message);
+  }
+}
+
+
 app.delete('/api/events/:id', async (req, res) => {
     const { id } = req.params;
+    deleteRowsByEventId(id)
 
     try {
         const { data, error } = await supabase
