@@ -3,6 +3,7 @@ import Header from '../../components/Heading';
 import { Link } from "react-router-dom";
 import React, { useState, useEffect } from 'react';
 import { supabase } from "../../api/supabase";
+import '../../index.css'
 
 
 const EventCard = ({ event, onDelete }) => {
@@ -91,13 +92,14 @@ const Dashboard = () => {
   return (
     <div className="App">
       <Header />
-      <div id="heading-section">
-        <h1>My Registered Events</h1>
-        <div id="heading-buttons">
-          <Link to="/create" className="create-event">Create Event</Link>
+      <div className="mt-5 mx-5 flex flex-col md:flex-row justify-between">
+        <p className='text-2xl font-bold content-center'>Dashboard</p>
+        <div className='flex flex-col md:flex-row items-center' id="heading-buttons">
+          <Link to="/create" className="create-event">New Event</Link>
           <Link to="/history" className="create-event">History</Link>
           <Link to="/signout" className="create-event">Sign-out</Link>
         </div>
+        
       </div>
 
       <div className="events-container">

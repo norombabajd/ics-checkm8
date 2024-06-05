@@ -20,12 +20,11 @@ function Header() {
 
 
   return <header>
-    <div id="" class="flex justify-between p-2 w-full bg-[#BBDEF0]">
+    <div id="" class="fixed flex flex-wrap justify-between p-2 w-screen bg-[#BBDEF0] flex-col sm:flex-row items-center">
       {login ?  <Link className="m-2 content-evenly font-bold" style={{ fontSize: "36px" }} to="/">checkm8</Link> :  <Link className="m-2 content-evenly font-bold" style={{ fontSize: "36px" }} to="/login">checkm8</Link>}
      
-
       <div>
-        <nav className="space-x-4 m-5 content-evenly">
+        <nav className="space-x-4 m-5 content-evenly sm:flex-row">
           {login ? <Link style={{ fontSize: "20px" }} to="/">Dashboard</Link> : <Link style={{ fontSize: "20px" }} to="/login">Dashboard</Link>}
           {login ? <Link style={{ fontSize: "20px" }} to="/check-in">Check-in</Link> : <Link style={{ fontSize: "20px" }} to="/login">Check-in</Link>}
           {login ? <Link style={{ fontSize: "20px" }} to="/profile">Profile</Link> : <Link style={{ fontSize: "20px" }} to="/login">Profile</Link>}
