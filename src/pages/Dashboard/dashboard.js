@@ -68,7 +68,7 @@ const Dashboard = () => {
   useEffect(() => {
     async function grabUserEvents() {
       const { data: { user } } = await supabase.auth.getUser();
-      const id = user.id || null;
+      const id = user.id;
       const { data, error } = await supabase
         .from('events')
         .select()

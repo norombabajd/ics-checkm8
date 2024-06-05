@@ -16,7 +16,7 @@ async function GoogleAuth() {
   })
 
   if (data) {
-    userid = data
+    userid = data||null 
   }
 
 

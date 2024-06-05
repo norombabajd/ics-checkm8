@@ -19,22 +19,6 @@ const getUserId = async (formData) => {
     }
 };
 
-//Geocode Function
-const geocode = async (inputAddress) => {
-    const address = inputAddress;
-    const apiKey = '5b3ce3597851110001cf6248cc4f90bfc3004a36ba42040bc0461132';
-    const apiUrl = `https://api.openrouteservice.org/geocode/search?api_key=${apiKey}&text=${encodeURIComponent(address)}`;
-
-    try {
-        const response = await fetch(apiUrl);
-        const data = await response.json();
-        const location = data.features[0].geometry;
-        return [location.coordinates[1], location.coordinates[0]];
-    } catch (error) {
-        console.error('Error fetching geocode:', error);
-        return [0, 0]; // Return default coordinates in case of error
-    }
-};
 
 function Create() {
 
@@ -89,9 +73,23 @@ function Create() {
             date: new Date().toISOString().split('T')[0],
         };
 
-        //Try Geocode
+        //Try Geocode ------------------------------------------------------------------------------------------------------------------------
+        let coordinates = [0,0]
         try {
-            const coordinates = await geocode(location);
+            try {
+                const response = await fetch('http://localhost:4000/geocode', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+            },
+                body: JSON.stringify({ location }),
+            });
+            const data = await response.json();
+            coordinates = data.coordinates;
+            console.log('Geocoded coordinates:', coordinates);
+            } catch (error) {
+            console.error('Error in geocoding:', error);
+            }
             if (coordinates[0] === 0 && coordinates[1] === 0) {
                 setIsOpen(true);
                 setErrorMessage("Please Enter a Valid Address or Location");
@@ -99,26 +97,23 @@ function Create() {
             } else {
                 convertedFormData.latitude = coordinates[0];
                 convertedFormData.longitude = coordinates[1];
-            }
+                console.log('Form Data Before Submission:', convertedFormData);
+                // Make API call to create event -----------------------------------------------------------------------------------------------------
+                const response = await fetch('http://localhost:4000/api/events', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(convertedFormData),
+                });
 
-            console.log('Form Data Before Submission:', convertedFormData);
-
-            // Make API call to create event
-            const response = await fetch('http://localhost:4000/api/events', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(convertedFormData),
-            });
-
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-
-            const data = await response.json();
-            console.log('Data inserted:', data);
-            setFormData(initialFormData);
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const data = await response.json();
+                console.log('Data inserted:', data);
+                setFormData(initialFormData);
+                }
         } catch (error) {
             console.error('Error:', error);
         }
