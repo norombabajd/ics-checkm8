@@ -91,7 +91,7 @@ const Dashboard = () => {
   return (
     <div className="App">
       <Header />
-      <div className="mt-5 mx-5 flex flex-col md:flex-row justify-between">
+      <div className='flex flex-col max-w px-36 py-36'>
         <p className='text-2xl font-bold content-center'>Dashboard</p>
         <div className='flex flex-col md:flex-row items-center' id="heading-buttons">
           <Link to="/create" className="create-event">New Event</Link>
