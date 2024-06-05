@@ -7,87 +7,87 @@ import { supabase } from '../../api/supabase';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
-
-async function ObtainProfileDemographics(id) {
-    const { data, error } = await supabase
-      .from('user-demographics')
-      .select()
-      .eq('id', id) // assuming 'id' is the column name for user ID
-  
-    if (error) {
-      console.error('Error fetching user data:', error)
-      return null
-    }
-    return data
-  }
-
-const Profile = () => {
+function Profile() {
     const [profileInfo, setProfileInfo] = useState({
         firstName: '',
         lastName: '', 
         email: '',
-        password: '',
         gender: '',
-        age: ''
-    })
+        age: null
+    });
+    const navigate = useNavigate();
+    const [user, setUser] = useState(null);
+    const [firstName, setFirstName] = useState("");
+    const [lastName, setLastName] = useState("");
+    const [email, setEmail] = useState("");
+    const [gender, setGender] = useState("");
+    const [age, setAge] = useState(0);
+
+    useEffect(() => {
+        async function grabUserData () {
+            try {
+                const { data: { user } } = await supabase.auth.getUser();
+                setUser(user);
+
+                if (!user) return; // User not logged in
+                const { data, error } = await supabase
+                    .from('user-demographics')
+                    .select()
+                    .eq('id', user.id);
+
+                if (error) {
+                    console.error('Error fetching user demographics:', error);
+                } else {
+                    const userData = data[0];
+                    console.log(userData.first_name);
+                    setProfileInfo({
+                        firstName: userData.first_name,
+                        lastName: userData.last_name,
+                        email: userData.email,
+                        gender: userData.gender,
+                        age: userData.age
+                    });
+                    console.log("profile info is set");
+                    console.log(profileInfo.firstName);
+                    console.log(profileInfo.lastName);
+                }
+            } catch (error) {
+                console.error('Error while grabbing user data:', error);
+            }
+        };
+        grabUserData();
+    }, []);
+
+    useEffect(() => {
+        if (user) {
+            setFirstName(profileInfo.firstName);
+            setLastName(profileInfo.lastName);
+            setEmail(profileInfo.email);
+            setGender(profileInfo.gender);
+            setAge(profileInfo.age);
+            console.log('inside use effect');
+        }
+    }, [profileInfo, user])
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setProfileInfo({
-          ...profileInfo,
-          [name]: value
+            ...profileInfo,
+            [name]: value
         });
-    }
+    };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log('Form submitted!', profileInfo);
-        setProfileInfo({
-            firstName: '',
-            lastName: '', 
-            email: '',
-            password: '',
-            gender: '',
-            age: ''
-        });
-    }
-
-    const navigate = useNavigate();
-    const [user, setUser] = useState(null);
-    const [age, setAge] = useState('null');
-    const [gender, setGender] = useState('null');
-
-    useEffect(() => {
-        async function GrabUserData() {
-            const { data: { user } } = await supabase.auth.getUser()
-            setUser(user)
-            
-            const { data, error } = await supabase
-            .from('user-demographics')
-            .select()
-            .eq('id', user.id) // assuming 'id' is the column name for user ID
-            
-            setAge(data[0].age);
-            setGender(data[0].gender);
-            
-            console.log(age);
-            console.log(gender);
-        
+        try {
+            // Save profile info to database
+            // Example: await supabase.from('user-demographics').update(profileInfo).eq('id', user.id);
+            console.log('Profile info saved:', profileInfo);
+        } catch (error) {
+            console.error('Error saving profile info:', error);
         }
-        GrabUserData();
+    };
 
-        if (user){
-            const demographics = ObtainProfileDemographics(user.id);
-            
-        }
-
-    }, []);
-
-    // console.log(user);    
-    
-
-
-    
     return (
         <div className="profilePage">
             <Header />
@@ -121,23 +121,18 @@ const Profile = () => {
                             <div className="firstName">
                                 <label>First Name</label>
                                 <br/>
-                                <InputBox type="text" name="firstName" value={profileInfo.firstName} onChange={handleInputChange} required/>
+                                <InputBox type="text" name="firstName" value={firstName} onChange={handleInputChange} required/>
                             </div>
                             <div className="lastName">
                                 <label>Last Name</label>
                                 <br/>
-                                <InputBox type="text" name="lastName" value={profileInfo.lastName} onChange={handleInputChange} required/>
+                                <InputBox type="text" name="lastName" value={lastName} onChange={handleInputChange} required/>
                             </div>
                         </div>
                         <div>
                             <label>Email</label>
                             <br/>
-                            <InputBox type="text" name="email" value={profileInfo.email} onChange={handleInputChange} required width="49%"/>
-                        </div>
-                        <div>
-                            <label>Password</label>
-                            <br/>
-                            <InputBox type="text" name="password" value={profileInfo.password} onChange={handleInputChange} required width="49%"/>
+                            <InputBox type="text" name="email" value={email} onChange={handleInputChange} required width="49%"/>
                         </div>
                         <div className="gender-age">
                             <div>
@@ -158,5 +153,6 @@ const Profile = () => {
         </div>
     );
 }
+
 
 export default Profile;
