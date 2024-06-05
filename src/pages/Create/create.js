@@ -5,25 +5,21 @@ import { userid } from '../auth/login.js';
 import Modal from './wrongdate.js';
 import { supabase } from '../../api/supabase.js';
 
-
-
-
+//Get UUID function
 const getUserId = async (formData) => {
     try {
         const { data: { user }, error } = await supabase.auth.getUser();
-
         if (error) {
             throw error;
         }
         const id = user?.id || null;
-        // console.log(id);
         formData.creator = id;
     } catch (error) {
         console.error('Error getting user ID:', error.message);
     }
 };
 
-
+//Geocode Function
 const geocode = async (inputAddress) => {
     const address = inputAddress;
     const apiKey = '5b3ce3597851110001cf6248cc4f90bfc3004a36ba42040bc0461132';
@@ -42,10 +38,11 @@ const geocode = async (inputAddress) => {
 
 function Create() {
 
-
+    //Modal variables
     const [isOpen, setIsOpen] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
 
+    //Initial Empty Form
     const initialFormData = {
         name: '',
         location: '',
@@ -61,8 +58,10 @@ function Create() {
     };
     const [formData, setFormData] = useState(initialFormData);
 
-
+    //Add UUID to formData
     getUserId(formData)
+
+    //Handle Changes on form
     const handleChange = (e) => {
         const { name, type, checked, value } = e.target;
         setFormData({
@@ -71,6 +70,7 @@ function Create() {
         });
     };
 
+    //Handles Submit
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -81,6 +81,7 @@ function Create() {
             return;
         }
 
+        //Convert Time to Proper time for Supabase Database
         const convertedFormData = {
             ...formData,
             start: formData.start ? new Date(formData.start).toISOString() : null,
@@ -88,6 +89,7 @@ function Create() {
             date: new Date().toISOString().split('T')[0],
         };
 
+        //Try Geocode
         try {
             const coordinates = await geocode(location);
             if (coordinates[0] === 0 && coordinates[1] === 0) {

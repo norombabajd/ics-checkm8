@@ -6,6 +6,7 @@ import { supabase } from "../../api/supabase";
 
 
 const EventCard = ({ event, onDelete }) => {
+  const [userID, setUserID] = useState(null)
   const handleDelete = async () => {
     try {
       const response = await fetch(`http://localhost:4000/api/events/${event.id}`, {
@@ -24,16 +25,34 @@ const EventCard = ({ event, onDelete }) => {
     }
   };
 
+
+  const getUserId = async (userID) => {
+    try {
+      const { data: { user }, error } = await supabase.auth.getUser();
+      if (error) {
+        throw error;
+      }
+      const id = user?.id || null;
+      setUserID(id);
+    } catch (error) {
+      console.error('Error getting user ID:', error.message);
+    }
+  };
+  getUserId(userID)
+
+
+
   return (
     <div className="event-card">
       <h3 className='text-bold'>{event.name}</h3>
       <p>{event.location}</p>
+      <p><b>ID: </b>{event.id}</p>
       <p>{event.date}</p>
       <p>{event.time}</p>
       <div className="cardbuttonGrid mt-2">
         <Link className="cardbutton" to="/check-in">Check In</Link>
-        {event.type === "createdEvent" ? (
-          <Link className="cardbutton" to="/attendance">Attendance</Link>
+        {event.creator === userID ? (
+          <Link className="cardbutton" to="/attendence">Attendance</Link>
         ) : (
           <Link className="cardbutton" to="/history">History</Link>
         )}
@@ -50,7 +69,6 @@ const Dashboard = () => {
     async function grabUserEvents() {
       const { data: { user } } = await supabase.auth.getUser();
       const id = user.id || null;
-      console.log(id)
       const { data, error } = await supabase
         .from('events')
         .select()
