@@ -57,8 +57,8 @@ app.post('/api/events', async (req, res) => {
 //Add Attendee to attendee in supabase
 
 app.post('/api/attendee', async (req, res) => {
+    const formData = req.body;
     try {
-        console.log(formData)
         const { data, error } = await supabase
             .from('attendee')
             .insert(formData)
