@@ -74,7 +74,7 @@ app.post('/api/events', async (req, res) => {
     }
 });
 //Add Attendee to attendee in supabase
-app.post('/api/attendee', async (req, res) => {
+app.post('/api/addAttendee', async (req, res) => {
     const formData = req.body;
     try {
         const { data, error } = await supabase
@@ -84,7 +84,6 @@ app.post('/api/attendee', async (req, res) => {
         if (error) {
             throw error;
         }
-
         res.status(200).json({ message: 'Attendee Added', data });
     } catch (error) {
         res.status(500).json({ message: 'Error Adding Attendee', error: error.message });
@@ -146,6 +145,7 @@ app.post('/geocode', async (req, res) => {
 app.get('/api/user-events', async (req, res) => {
   try {
     const val = req.headers.uuid;
+   
     const { data, error } = await supabase
       .from('events')
       .select()
@@ -171,7 +171,7 @@ app.post('/api/users', async (req, res) => {
    const { data1, error1 } = await supabase
   .from('users-demographics')
   .select('*')
-  .eq('id', userData.id)
+  .eq('id', userData.id) 
   .single();
 
 if (!data1) {
@@ -193,21 +193,6 @@ if (!data1) {
 } else {
   console.log('Data already exists:', data1);
 }
-
-
-    
-    
-    
-   
-    // // Insert new user into the database
-    // const { data, error } = await supabase
-    //   .from('user-demographics')
-    //   .insert([{ id, first_name, last_name }]);
-
-    // if (error) {
-    //     console.log(error)
-    //   throw error;
-    // }
 
     res.status(201).json({ message: 'User created successfully' });
   } catch (error) {

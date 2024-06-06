@@ -39,6 +39,7 @@ const EventCard = ({ event, onDelete }) => {
     }
   };
   getUserId(userID)
+  
 
   return (
     <div className="event-card">
@@ -50,7 +51,7 @@ const EventCard = ({ event, onDelete }) => {
       <div className="cardbuttonGrid mt-2">
         <Link className="cardbutton" to="/check-in">Check In</Link>
         {event.creator === userID ? (
-          <Link className="cardbutton" to="/attendence">Attendance</Link>
+          <Link className="cardbutton" to={"/attendance"}  >Attendance</Link>
         ) : (
           <Link className="cardbutton" to="/history">History</Link>
         )}
@@ -64,8 +65,8 @@ const Dashboard = () => {
   const [events, setEvents] = useState([]);
   const handleDeleteEvent = (deletedEventId) => {
     setEvents(events.filter((event) => event.id !== deletedEventId));
+    fetchUserEvents()
   };
-  useEffect(() => {
   async function fetchUserEvents() {
     try {
       const { data: { user }, error } = await supabase.auth.getUser();
@@ -88,7 +89,6 @@ const Dashboard = () => {
     }
   }
   fetchUserEvents();
-}, [handleDeleteEvent]);
   return (
     <div className="App">
       <Header />

@@ -143,14 +143,13 @@ function CheckIn() {
 
 
             try {
-                const response = await fetch('http://localhost:4000/api/attendee', {
+                const response = await fetch('http://localhost:4000/api/addAttendee', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify(formData),
                 });
-
                 if (!response.ok) {
                     if (response.status === 404) {
                         throw new Error('API endpoint not found');
