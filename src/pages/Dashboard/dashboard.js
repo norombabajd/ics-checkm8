@@ -26,7 +26,7 @@ const EventCard = ({ event, onDelete }) => {
   };
 
 
-  const getUserId = async (userID) => {
+  const getUserId = async () => {
     try {
       const { data: { user }, error } = await supabase.auth.getUser();
       if (error) {
@@ -39,8 +39,6 @@ const EventCard = ({ event, onDelete }) => {
     }
   };
   getUserId(userID)
-
-
 
   return (
     <div className="event-card">
@@ -64,30 +62,33 @@ const EventCard = ({ event, onDelete }) => {
 
 const Dashboard = () => {
   const [events, setEvents] = useState([]);
- const handleDeleteEvent = (deletedEventId) => {
+  const handleDeleteEvent = (deletedEventId) => {
     setEvents(events.filter((event) => event.id !== deletedEventId));
   };
   useEffect(() => {
-    async function grabUserEvents() {
-      const { data: { user } } = await supabase.auth.getUser();
-      const id = user.id;
-      const { data, error } = await supabase
-        .from('events')
-        .select()
-        .eq('creator', id);
-
+  async function fetchUserEvents() {
+    try {
+      const { data: { user }, error } = await supabase.auth.getUser();
       if (error) {
-        console.error('Error fetching events:', error.message);
-
-      } else {
-        setEvents(data || []);
+        throw error;
       }
+      const response = await fetch('http://localhost:4000/api/user-events', {
+        method: 'GET',
+        headers: {
+          uuid: user?.id || null,
+        },
+      });
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const data = await response.json();
+      setEvents(data);
+    } catch (error) {
+      console.error('Error fetching events:', error.message);
     }
-    grabUserEvents();
-  }, [handleDeleteEvent]);
-
- 
-
+  }
+  fetchUserEvents();
+}, [handleDeleteEvent]);
   return (
     <div className="App">
       <Header />

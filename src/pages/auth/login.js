@@ -5,6 +5,33 @@ import GoogleButton from '../../assets/google-login.svg';
 
 export var userid = null;
 
+const postNewUser = async () => {
+  try {
+    const { data: { user }, error } = await supabase.auth.getUser();
+    
+    const {user_metadata:{name}} = user
+    const {user_metadata:{email}} = user
+    if (error) {
+      throw error;
+    }
+    const response = await fetch('http://localhost:4000/api/users', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ fullName :name, id: user.id, email:email }),
+    });
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    const data = await response.json();
+    
+  } catch (error) {
+    console.error('Error fetching events:', error.message);
+  }
+};
+postNewUser();
+
 async function GoogleAuth() {
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: 'google',

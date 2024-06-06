@@ -8,6 +8,8 @@ import React, { useState } from 'react';
 
 function Attendance() {
     const [attendees, setAttendees] = useState([]);
+
+    
     const [attendeeName, setAttendeeName] = useState('');
 
     const addAttendee = () => {
@@ -39,7 +41,7 @@ function Attendance() {
     return (
         <div>
             <Header />
-            <div className="container">
+            <div className='flex flex-col max-w px-36 py-36'>
                 <h2>Add Attendee</h2>
                 <div className="input-group">
                     <input
