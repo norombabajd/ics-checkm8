@@ -20,7 +20,8 @@ function Header() {
 
 
   return <header>
-    <div id="" class="fixed flex flex-wrap justify-between p-2 w-screen bg-[#BBDEF0] flex-col sm:flex-row items-center">
+    <div className='pb-48'>
+    <div id="" class="fixed flex flex-wrap justify-between p-2 w-screen bg-[#BBDEF0] flex-col sm:flex-row items-center ">
       {login ?  <Link className="m-2 content-evenly font-bold" style={{ fontSize: "36px" }} to="/">checkm8</Link> :  <Link className="m-2 content-evenly font-bold" style={{ fontSize: "36px" }} to="/login">checkm8</Link>}
      
       <div>
@@ -31,6 +32,7 @@ function Header() {
 
         </nav>
       </div>
+    </div>
     </div>
   </header >
 }

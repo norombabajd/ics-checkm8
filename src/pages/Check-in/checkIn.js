@@ -185,7 +185,7 @@ function CheckIn() {
     return (
         <div>
             <Header />
-            <div className='flex flex-col max-w px-36 py-36 items-center'>
+            <div className='flex flex-col max-w px-36 items-center'>
                 <div className='card rounded-xl flex flex-col gap-2 p-10 shadow-lg'>
                     <form onSubmit={handleSubmit} className="form-container">
                         <h1>Check-in</h1>

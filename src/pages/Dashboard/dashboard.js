@@ -92,18 +92,21 @@ const Dashboard = () => {
   return (
     <div className="App">
       <Header />
-      <div className='flex flex-col max-w px-36 py-36'>
+      <div className='flex flex-col max-w md:px-36'>
         <p className='text-2xl font-bold content-center'>Dashboard</p>
+        
         <div className='flex flex-col md:flex-row items-center' id="heading-buttons">
           <Link to="/create" className="create-event">New Event</Link>
           <Link to="/history" className="create-event">History</Link>
           <Link to="/signout" className="create-event">Sign-out</Link>
-        </div>
+      </div>
         
+
+
       </div>
 
       <div className="events-container">
-        <div className="events-grid">
+        <div className="grid gap-4 lg:grid-cols-3 sm:grid-cols-2">
           {events.map((event) => (
             <EventCard key={event.id} event={event} onDelete={handleDeleteEvent} />
           ))}
