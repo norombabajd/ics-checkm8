@@ -41,9 +41,9 @@ function Attendance() {
     return (
         <div>
             <Header />
-            <div className='flex flex-col max-w px-36 py-36'>
+            <div className='flex flex-col max-w px-36 '>
                 <h2>Add Attendee</h2>
-                <div className="input-group">
+                <div className="flex align-center">
                     <input
                         type="text"
                         value={attendeeName}
