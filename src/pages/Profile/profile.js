@@ -11,8 +11,8 @@ function Profile() {
     const [profileInfo, setProfileInfo] = useState(null);
     const navigate = useNavigate();
     const [user, setUser] = useState(null);
-    const [firstName, setFirstName] = useState("");
-    const [lastName, setLastName] = useState("");
+    const [first_name, setFirstName] = useState("");
+    const [last_name, setLastName] = useState("");
     const [email, setEmail] = useState("");
     const [gender, setGender] = useState("");
     const [age, setAge] = useState(0);
@@ -33,18 +33,14 @@ function Profile() {
                     console.error('Error fetching user demographics:', error);
                 } else {
                     const userData = data[0];
-                    console.log(userData.first_name);
                     setProfileInfo(userData);
-                    console.log("profile info is set");
-                    setTimeout(() => {}, 4000);
-                    console.log(profileInfo.first_name);
-                    let inputElement = document.getElementById("fn");
-                    inputElement.value = profileInfo.first_name;
-                    console.log(profileInfo.first_name);
-                    console.log(profileInfo.last_name);
-                    console.log(profileInfo.email);
-                    console.log(profileInfo.gender);
-                    console.log(profileInfo.age);
+                    console.log(profileInfo);
+                    setFirstName(userData.first_name);
+                    setLastName(userData.last_name);
+                    setEmail(userData.email);
+                    setGender(userData.gender);
+                    setAge(userData.age);
+                    console.log(age);
                 }
             } catch (error) {
                 console.error('Error while grabbing user data:', error);
@@ -58,7 +54,7 @@ function Profile() {
             console.log("below is newInfo");
             console.log(newInfo);
             const { data , error } = await supabase
-            .from('user_demographics')
+            .from('user-demographics')
             .update(newInfo)
             .eq('id', id);
 
@@ -73,30 +69,36 @@ function Profile() {
 
     }
 
-    // useEffect(() => {
-    //     if (user) {
-    //         setFirstName(profileInfo.firstName);
-    //         setLastName(profileInfo.lastName);
-    //         setEmail(profileInfo.email);
-    //         setGender(profileInfo.gender);
-    //         setAge(profileInfo.age);
-    //         console.log('inside use effect');
-    //     }
-    // }, [profileInfo, user])
-
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setProfileInfo({
             ...profileInfo,
             [name]: value
         });
+        if (name === 'first_name') {
+            setFirstName(value);
+        } else if (name === 'last_name') {
+            setLastName(value);
+        } else if (name === 'email') {
+            setEmail(value);
+        } else if (name === 'gender') {
+            setGender(value);
+        } else if (name === 'age') {
+            setAge(value);
+        }
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            // Save profile info to database
-            updateProfileInfo(user.id, profileInfo);
+            let newProfileInfo = {
+                first_name: profileInfo.first_name,
+                last_name: profileInfo.last_name,
+                email: profileInfo.email,
+                gender: profileInfo.gender,
+                age: profileInfo.age
+            };
+            updateProfileInfo(user.id, newProfileInfo);
             console.log('Profile info saved:', profileInfo);
         } catch (error) {
             console.error('Error saving profile info:', error);
@@ -140,12 +142,12 @@ function Profile() {
                             <div className="firstName">
                                 <label>First Name</label>
                                 <br/>
-                                <InputBox id="fn" type="text" name="firstName" value={profileInfo.first_name} onChange={handleInputChange} required/>
+                                <InputBox id="fn" type="text" name="firstName" value={first_name} onChange={handleInputChange} required/>
                             </div>
                             <div className="lastName">
                                 <label>Last Name</label>
                                 <br/>
-                                <InputBox type="text" name="lastName" value={profileInfo.last_name} onChange={handleInputChange} required/>
+                                <InputBox type="text" name="lastName" value={last_name} onChange={handleInputChange} required/>
                             </div>
                         </div>
                         <div>
