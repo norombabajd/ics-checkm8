@@ -202,6 +202,73 @@ if (!data1) {
   }
 });
 
+//Get user events from supabase
+
+
+function formatTimestamp(timestamp) {
+  const dateObj = new Date(timestamp);
+  
+  const year = dateObj.getFullYear();
+  const month = String(dateObj.getMonth() + 1).padStart(2, '0');
+  const day = String(dateObj.getDate()).padStart(2, '0');
+
+  const hours = String(dateObj.getHours()).padStart(2, '0');
+  const minutes = String(dateObj.getMinutes()).padStart(2, '0');
+  const seconds = String(dateObj.getSeconds()).padStart(2, '0');
+
+  return `${month}/${day}/${year} ${hours}:${minutes}:${seconds}`;
+}
+
+app.get('/api/attendees', async (req, res) => {
+  try {
+    const eventID = req.headers.event;
+
+    // First query: Fetch attendees with the specified event ID, including the date
+    const { data: attendees, error: attendeeError } = await supabase
+      .from('attendee')
+      .select('userID, date') // Ensure to select the userID and date
+      .eq('eventID', eventID);
+
+    if (attendeeError) {
+      throw new Error(attendeeError.message);
+    }
+
+    // Extract the attendee IDs
+    const attendeeIDs = attendees.map(att => att.userID);
+
+    if (attendeeIDs.length === 0) {
+      return res.json([]); // No attendees found
+    }
+
+    // Second query: Fetch names of the attendees from another table using their IDs
+    const { data: names, error: namesError } = await supabase
+      .from('user-demographics') // Assuming 'user-demographics' is the table where names are stored
+      .select('id, first_name, last_name, email') // Adjust the columns as per your table schema
+      .in('id', attendeeIDs);
+
+    if (namesError) {
+      throw new Error(namesError.message);
+    }
+
+    // Combine the attendee information with their names and dates
+    const result = attendees.map(att => {
+      const user = names.find(name => name.id === att.userID);
+      return {
+        userID: att.userID,
+        firstName: user.first_name,
+        lastName: user.last_name,
+        email: user.email,
+        date: formatTimestamp(att.date)
+      };
+    });
+    console.log(result)
+    res.json(result);
+  } catch (error) {
+    console.error('Error fetching events:', error.message);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
 
 
 

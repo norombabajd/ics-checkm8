@@ -8,23 +8,18 @@ import { useEffect } from 'react';
 
 
 // Need to implement size of name control upon input 
-
-
-
-
-
-
-
 function Attendance() {
     const [attendees, setAttendees] = useState([]);
     const [attendeeName, setAttendeeName] = useState('');
     const [events, setEvents] = useState([])
+   
 
 
     const [selectedItem, setSelectedItem] = useState(null);
     const handleSelectChange = (event) => {
-        console.log(event.target.value)
-        setSelectedItem(event.target.value)
+        const [itemName, itemId] = event.target.value.split(',');
+        fetchAttendees(itemId)
+        setSelectedItem(`Event Name: ${itemName} / Event ID: ${itemId}`);
     }
 
     async function fetchUserEvents() {
@@ -37,6 +32,7 @@ function Attendance() {
                 method: 'GET',
                 headers: {
                     uuid: user?.id || null,
+                    
                 },
             });
             if (!response.ok) {
@@ -67,8 +63,7 @@ function Attendance() {
             const response = await fetch('http://localhost:4000/api/attendees', {
                 method: 'GET',
                 headers: {
-                    uuid: user?.id || null,
-                    eventIDCode: eventID || null
+                    event:  eventID || null,
                 },
             });
             if (!response.ok) {
@@ -103,8 +98,9 @@ function Attendance() {
     const AttendeeCard = ({ attendee, removeAttendee }) => {
         return (
             <div className="attendee-card">
-                <span>{attendee.name}</span>
-                <span>{attendee.timestamp}</span>
+                <span>{attendee.firstName} {attendee.lastName}</span>
+                <span>{attendee.email}</span>
+                <span>{attendee.date}</span>
                 <button onClick={removeAttendee}>Remove</button>
             </div>
         );
@@ -113,7 +109,7 @@ function Attendance() {
     return (
         <div>
             <Header />
-            <div className='flex flex-col max-w px-36 py-36'>
+            <div className='flex flex-col max-w px-36'>
                 <h2>Add Attendee</h2>
                 <div className="input-group">
                     <input
@@ -130,8 +126,8 @@ function Attendance() {
                     <select id="dropdown" value={selectedItem} onChange={handleSelectChange}>
                         <option value="">Select an item</option>
                         {events.map((item) => (
-                            <option key={item.name} value={item}>
-                                <p><b>Event:</b> {item.name} / <b>Event ID:</b> {item.id}</p>
+                            <option key={item.name} value={`${item.name},${item.id}`}>
+                                <p>Event: {item.name} / Event ID: {item.id}</p>
                             </option>
                         ))}
                     </select>
@@ -141,10 +137,6 @@ function Attendance() {
                         </p>
                     )}
                 </div>
-
-
-
-
                 <h2>Attendees</h2>
                 <div className="attendees-list">
                     {attendees.map((attendee, index) => (

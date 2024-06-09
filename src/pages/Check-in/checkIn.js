@@ -20,6 +20,24 @@ const getUserId = async (formData) => {
     }
 };
 
+
+function getCurrentDateTime24Hour() {
+  const now = new Date();
+
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+  const day = String(now.getDate()).padStart(2, '0');
+
+  const hours = String(now.getHours()).padStart(2, '0');
+  const minutes = String(now.getMinutes()).padStart(2, '0');
+  const seconds = String(now.getSeconds()).padStart(2, '0');
+
+  const date = `${year}-${month}-${day}`;
+  const time = `${hours}:${minutes}:${seconds}`;
+
+  return `${date} ${time}`;
+}
+
 function CheckIn() {
     const [correctDistance, setCorrectDistance] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
@@ -136,12 +154,9 @@ function CheckIn() {
         setCorrectDistance(distanceCheck);
         if (distanceCheck) {
             setFormData((prevData) => ({ ...prevData, checkedIn: correctDistance }));
-            formData.date = new Date().toISOString().split('T')[0];
+            formData.date =  getCurrentDateTime24Hour()
             formData.checkedIn = true
             console.log(formData);
-
-
-
             try {
                 const response = await fetch('http://localhost:4000/api/addAttendee', {
                     method: 'POST',
