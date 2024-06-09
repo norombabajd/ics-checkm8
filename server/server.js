@@ -53,6 +53,40 @@ app.delete('/api/events/:id', async (req, res) => {
     }
 });
 
+//Delete Attendee from attendance list
+async function deleteAttendee(eventId, userId) {
+  try {
+    const { data, error } = await supabase
+      .from('attendee') // Replace with your table name if different
+      .delete()
+      .eq('eventID', eventId) // Replace 'eventID' with the actual column name if different
+      .eq('userID', userId); // Replace 'userID' with the actual column name if different
+
+    if (error) {
+      throw error;
+    }
+
+    console.log('Attendee deleted:', data);
+  } catch (error) {
+    console.error('Error deleting attendee:', error.message);
+  }
+}
+
+// Delete endpoint for attendees
+app.delete('/api/attendees/:eventId/:userId', async (req, res) => {
+  const { eventId, userId } = req.params;
+  console.log(eventId,userId)
+  try {
+    // Delete the specific attendee from the 'attendee' table
+    await deleteAttendee(eventId, userId);
+
+    res.status(200).json({ message: 'Attendee deleted' });
+  } catch (error) {
+    res.status(500).json({ message: 'Error deleting attendee', error: error.message });
+  }
+});
+
+
 
 
 //Add Event to events in supabase

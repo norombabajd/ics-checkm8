@@ -11,10 +11,13 @@ function Attendance() {
     const [attendeeName, setAttendeeName] = useState('');
     const [events, setEvents] = useState([])
     const [selectedItem, setSelectedItem] = useState(null);
+    const [currentEventID, setCurrentEventID] = useState(null);
+
 
     const handleSelectChange = (event) => {
         const [itemName, itemId] = event.target.value.split(',');
         fetchAttendees(itemId)
+        setCurrentEventID(itemId)
         setSelectedItem(`Event Name: ${itemName} / Event ID: ${itemId}`);
     }
 
@@ -36,9 +39,6 @@ function Attendance() {
             }
             const data = await response.json();
             setEvents(data);
-            console.log(data)
-
-
         } catch (error) {
             console.error('Error fetching events:', error.message);
         }
@@ -86,10 +86,28 @@ function Attendance() {
         }
     };
 
-    const removeAttendee = (index) => {
+    const removeAttendee = async (index) => {
+    try {
+        const userID = attendees[index].userID;
+        const eventID = currentEventID
+        console.log(userID,eventID)
+        const response = await fetch(`http://localhost:4000/api/attendees/${eventID}/${userID}`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        });
+        if (!response.ok) {
+        throw new Error('Failed to delete attendee');
+        }
         const newAttendees = attendees.filter((_, i) => i !== index);
         setAttendees(newAttendees);
+    } catch (error) {
+        console.error('Error deleting attendee:', error);
+    }
     };
+
+
 
     const AttendeeCard = ({ attendee, removeAttendee }) => {
         return (
