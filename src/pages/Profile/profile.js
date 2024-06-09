@@ -61,7 +61,6 @@ function Profile() {
             if (error) {
                 throw error;
             }
-
             console.log("updated sucessfully: ", data);
         } catch (error) {
             console.log("Error while updating user data: ", error);
@@ -70,14 +69,15 @@ function Profile() {
     }
 
     const handleInputChange = (e) => {
-        const { name, value } = e.target;
+        const { name, value } = e.target;;
         setProfileInfo({
             ...profileInfo,
             [name]: value
         });
-        if (name === 'first_name') {
+        console.log(profileInfo);
+        if (name === 'firstName') {
             setFirstName(value);
-        } else if (name === 'last_name') {
+        } else if (name === 'lastName') {
             setLastName(value);
         } else if (name === 'email') {
             setEmail(value);
@@ -92,13 +92,14 @@ function Profile() {
         e.preventDefault();
         try {
             let newProfileInfo = {
-                first_name: profileInfo.first_name,
-                last_name: profileInfo.last_name,
-                email: profileInfo.email,
-                gender: profileInfo.gender,
-                age: profileInfo.age
+                first_name: first_name,
+                last_name: last_name,
+                email: email,
+                gender: gender,
+                age: age
             };
             updateProfileInfo(user.id, newProfileInfo);
+            console.log(newProfileInfo);
             console.log('Profile info saved:', profileInfo);
         } catch (error) {
             console.error('Error saving profile info:', error);
@@ -142,12 +143,12 @@ function Profile() {
                             <div className="firstName">
                                 <label>First Name</label>
                                 <br/>
-                                <InputBox id="fn" type="text" name="firstName" value={first_name} onChange={handleInputChange} required/>
+                                <InputBox id="fn" type="text" name="firstName" value={profileInfo.first_name} onChange={handleInputChange} required/>
                             </div>
                             <div className="lastName">
                                 <label>Last Name</label>
                                 <br/>
-                                <InputBox type="text" name="lastName" value={last_name} onChange={handleInputChange} required/>
+                                <InputBox type="text" name="lastName" value={profileInfo.last_name} onChange={handleInputChange} required/>
                             </div>
                         </div>
                         <div>
