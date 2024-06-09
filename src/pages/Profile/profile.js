@@ -11,8 +11,8 @@ function Profile() {
     const [profileInfo, setProfileInfo] = useState(null);
     const navigate = useNavigate();
     const [user, setUser] = useState(null);
-    const [firstName, setFirstName] = useState("");
-    const [lastName, setLastName] = useState("");
+    const [first_name, setFirstName] = useState("");
+    const [last_name, setLastName] = useState("");
     const [email, setEmail] = useState("");
     const [gender, setGender] = useState("");
     const [age, setAge] = useState(0);
@@ -33,18 +33,14 @@ function Profile() {
                     console.error('Error fetching user demographics:', error);
                 } else {
                     const userData = data[0];
-                    console.log(userData.first_name);
                     setProfileInfo(userData);
-                    console.log("profile info is set");
-                    setTimeout(() => {}, 4000);
-                    console.log(profileInfo.first_name);
-                    let inputElement = document.getElementById("fn");
-                    inputElement.value = profileInfo.first_name;
-                    console.log(profileInfo.first_name);
-                    console.log(profileInfo.last_name);
-                    console.log(profileInfo.email);
-                    console.log(profileInfo.gender);
-                    console.log(profileInfo.age);
+                    console.log(profileInfo);
+                    setFirstName(userData.first_name);
+                    setLastName(userData.last_name);
+                    setEmail(userData.email);
+                    setGender(userData.gender);
+                    setAge(userData.age);
+                    console.log(age);
                 }
             } catch (error) {
                 console.error('Error while grabbing user data:', error);
@@ -58,14 +54,13 @@ function Profile() {
             console.log("below is newInfo");
             console.log(newInfo);
             const { data , error } = await supabase
-            .from('user_demographics')
+            .from('user-demographics')
             .update(newInfo)
             .eq('id', id);
 
             if (error) {
                 throw error;
             }
-
             console.log("updated sucessfully: ", data);
         } catch (error) {
             console.log("Error while updating user data: ", error);
@@ -73,39 +68,42 @@ function Profile() {
 
     }
 
-    // useEffect(() => {
-    //     if (user) {
-    //         setFirstName(profileInfo.firstName);
-    //         setLastName(profileInfo.lastName);
-    //         setEmail(profileInfo.email);
-    //         setGender(profileInfo.gender);
-    //         setAge(profileInfo.age);
-    //         console.log('inside use effect');
-    //     }
-    // }, [profileInfo, user])
-
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setProfileInfo({
             ...profileInfo,
             [name]: value
         });
+        console.log(profileInfo);
+        if (name === 'firstName') {
+            setFirstName(value);
+        } else if (name === 'lastName') {
+            setLastName(value);
+        } else if (name === 'email') {
+            setEmail(value);
+        } else if (name === 'gender') {
+            setGender(value);
+        } else if (name === 'age') {
+            setAge(value);
+        }
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            // Save profile info to database
-            updateProfileInfo(user.id, profileInfo);
+            let newProfileInfo = {
+                first_name: first_name,
+                last_name: last_name,
+                email: email,
+                gender: gender,
+                age: age
+            };
+            updateProfileInfo(user.id, newProfileInfo);
             console.log('Profile info saved:', profileInfo);
         } catch (error) {
             console.error('Error saving profile info:', error);
         }
     };
-
-    if (!profileInfo) {
-        return <div>Loading...</div>;
-    }
 
     return (
         <div className="profilePage">
@@ -140,29 +138,29 @@ function Profile() {
                             <div className="firstName">
                                 <label>First Name</label>
                                 <br/>
-                                <InputBox id="fn" type="text" name="firstName" value={profileInfo.first_name} onChange={handleInputChange} required/>
+                                <InputBox id="fn" type="text" name="firstName" val={first_name} onChange={handleInputChange} required/>
                             </div>
                             <div className="lastName">
                                 <label>Last Name</label>
                                 <br/>
-                                <InputBox type="text" name="lastName" value={profileInfo.last_name} onChange={handleInputChange} required/>
+                                <InputBox type="text" name="lastName" val={last_name} onChange={handleInputChange} required/>
                             </div>
                         </div>
                         <div>
                             <label>Email</label>
                             <br/>
-                            <InputBox type="text" name="email" value={profileInfo.email} onChange={handleInputChange} required width="49%"/>
+                            <InputBox type="text" name="email" val={email} onChange={handleInputChange} required width="49%"/>
                         </div>
                         <div className="gender-age">
                             <div>
                                 <label>Gender</label>
                                 <br/>
-                                <InputBox type="text" name="gender" value={profileInfo.gender} onChange={handleInputChange}/>
+                                <InputBox type="text" name="gender" val={gender} onChange={handleInputChange}/>
                             </div>
                             <div className="age">
                                 <label>Age</label>
                                 <br/>
-                                <InputBox type="text" name="age" value={profileInfo.age} onChange={handleInputChange} required/>
+                                <InputBox type="text" name="age" val={age} onChange={handleInputChange} required/>
                             </div>
                         </div>
                         <button type="submit" className="submitButton">Save Changes</button>
