@@ -1,8 +1,6 @@
 import Header from '../../components/Heading';
-import { Link } from "react-router-dom";
 import './attendence.css';
 import React, { useState } from 'react';
-
 import { supabase } from '../../api/supabase';
 import { useEffect } from 'react';
 
@@ -12,10 +10,8 @@ function Attendance() {
     const [attendees, setAttendees] = useState([]);
     const [attendeeName, setAttendeeName] = useState('');
     const [events, setEvents] = useState([])
-   
-
-
     const [selectedItem, setSelectedItem] = useState(null);
+
     const handleSelectChange = (event) => {
         const [itemName, itemId] = event.target.value.split(',');
         fetchAttendees(itemId)
