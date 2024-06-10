@@ -123,9 +123,31 @@ function Attendance() {
     return (
         <div>
             <Header />
-            <div className='flex flex-col max-w px-36'>
-                <h2>Add Attendee</h2>
-                <div className="flex align-center">
+            <div className='flex flex-col max-w m-12 gap-2'>
+                <h2 className='flex font-bold justify-center'>Add Attendee</h2>
+                {selectedItem && (
+                        <p className='flex justify-center'>
+                            {selectedItem}
+                        </p>
+                    ) || <p className='flex justify-center'>To add an attendee to an event you created, select an item from the list. Emails are case-sensitive, you must add users who have a checkm8 account.</p>}
+                
+                
+                <div className='flex justify-center'>
+                <div className='border-2 border-[#ddd] w-fit p-2 rounded-md mr-2 text-base box-border'>
+                    <select className='' id="dropdown" value={selectedItem} onChange={handleSelectChange}>
+                        <option>Events Created by Me</option>
+                        {events.map((item) => (
+                            <option key={item.name} value={`${item.name},${item.id}`}>
+                                <p>{item.name} /ID: {item.id}</p>
+                            </option>
+                        ))}
+                    </select>
+                </div>
+                </div>
+
+
+
+                <div className="flex align-center mt-5">
                     <input
                         type="text"
                         value={attendeeName}
@@ -135,23 +157,7 @@ function Attendance() {
                     <button class='add-button' onClick={addAttendee}>Add Attendee</button>
                 </div>
 
-                <div>
-                    <label htmlFor="dropdown">Choose an item:</label>
-                    <select id="dropdown" value={selectedItem} onChange={handleSelectChange}>
-                        <option value="">Select an item</option>
-                        {events.map((item) => (
-                            <option key={item.name} value={`${item.name},${item.id}`}>
-                                <p>Event: {item.name} / Event ID: {item.id}</p>
-                            </option>
-                        ))}
-                    </select>
-                    {selectedItem && (
-                        <p>
-                            Attendance For: {selectedItem}
-                        </p>
-                    )}
-                </div>
-                <h2>Attendees</h2>
+                <h2 className='font-bold mt-5'>Attendees</h2>
                 <div className="attendees-list">
                     {attendees.map((attendee, index) => (
                         <AttendeeCard key={index} attendee={attendee} removeAttendee={() => removeAttendee(index)} />
