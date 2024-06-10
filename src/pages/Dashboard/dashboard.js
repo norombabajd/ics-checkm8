@@ -55,7 +55,7 @@ const EventCard = ({ event, onDelete }) => {
         ) : (
           <Link className="cardbutton" to="/history">History</Link>
         )}
-        <button className="cardbutton" onClick={handleDelete}>Delete Event</button>
+        <a className="cardbutton" onClick={handleDelete}>Delete Event</a>
       </div>
     </div>
   );
