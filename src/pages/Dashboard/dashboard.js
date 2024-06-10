@@ -73,22 +73,50 @@ const Dashboard = () => {
       if (error) {
         throw error;
       }
+
       const response = await fetch('http://localhost:4000/api/user-events', {
         method: 'GET',
         headers: {
-          uuid: user?.id || null,
+          uuid: user.id || null,
         },
       });
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
+      
+      const { data: eventData, error: userError } = await supabase
+      .from('user-demographics')
+      .select('attending')
+      .eq('id', user.id)
+      .single();
+
+      console.log(eventData.attending);
+      eventData.attending.forEach(async element => {
+        console.log(element)
+
+        const { invEvent, err } = await supabase
+          .from('events')
+          .select()
+          .eq('id', element)
+          .single();
+
+        response.push(invEvent)
+
+      });
+      
+
       const data = await response.json();
       setEvents(data);
     } catch (error) {
       console.error('Error fetching events:', error.message);
     }
   }
-  fetchUserEvents();
+  // fetchUserEvents();
+  setTimeout(() => {
+    fetchUserEvents();
+  }, 300000);
+
+  
   return (
     <div className="App">
       <Header />
