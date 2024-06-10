@@ -116,6 +116,7 @@ function Attendance() {
         } catch (error) {
             console.log("Error while adding attendee: ", error);
         }
+        fetchAttendees(eventID);
     }
 
     const removeAttendee = async (index) => {
