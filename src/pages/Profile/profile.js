@@ -110,8 +110,15 @@ function Profile() {
             <Header />
             <div className="columns">
                 <div className="leftColumn">
-                    <h2>Settings</h2>
+                    <h2 className='font-bold'>Settings</h2>
                     <div className="settingItems">
+                        <div className="settingItem">
+                            <b>Changes you make here will not be reflected on your Google account, only your checkm8 account.</b>
+                        </div>
+                        <div className="settingItem">
+                        <b>When registering for an event, make sure you use the email (or username) indicated in your details.</b>
+
+                        </div>
                         <div className="settingItem">
                             <p>App notifications</p>
                             <Toggle/>
@@ -132,8 +139,13 @@ function Profile() {
                 </div>
                 <div className="columnSeparator"></div>
                 <div className="rightColumn">
-                    <h2>Account Details</h2>
+                    <h2 className='font-bold'>Account Details</h2>
                     <form onSubmit={handleSubmit}>
+                        <div>
+                            <label>Email (or username)</label>
+                            <br/>
+                            <InputBox type="text" name="email" val={email} onChange={handleInputChange} required width="63%"/>
+                        </div>
                         <div className="name">
                             <div className="firstName">
                                 <label>First Name</label>
@@ -145,11 +157,6 @@ function Profile() {
                                 <br/>
                                 <InputBox type="text" name="lastName" val={last_name} onChange={handleInputChange} required/>
                             </div>
-                        </div>
-                        <div>
-                            <label>Email</label>
-                            <br/>
-                            <InputBox type="text" name="email" val={email} onChange={handleInputChange} required width="49%"/>
                         </div>
                         <div className="gender-age">
                             <div>

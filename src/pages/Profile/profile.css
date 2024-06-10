@@ -11,11 +11,12 @@ form {
 }
 
 .columns {
-    margin: 25px;
+    margin: 50px;
     display: flex;
     height: 100%;
+    flex-direction: column;
 }
-  
+
 .leftColumn {
     flex: 1; 
 }
@@ -32,18 +33,20 @@ form {
 
 .name {
     display: flex;
+    flex-direction: column;
 }
 
 .gender-age {
     display: flex;
+    flex-direction: column;
 }
 
 .age {
-    margin-left: 50px;
+    margin-left: 0;
 }
 
 .lastName {
-    margin-left: 50px;
+    margin-left: 0;
 }
 
 .settingItem {
@@ -71,4 +74,27 @@ form {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+
+@media (min-width: 640px) {
+    .age {
+        margin-left: 50px; 
+    }
+
+    .gender-age {
+        flex-direction: row; 
+    }
+
+    .lastName {
+        margin-left: 50px;
+    }
+
+    .name {
+        flex-direction: row;
+    }
+
+    .columns {
+        flex-direction: row;
+    }
 }
