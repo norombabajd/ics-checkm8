@@ -84,37 +84,23 @@ const Dashboard = () => {
         throw new Error('Network response was not ok');
       }
       
-      const { data: eventData, error: userError } = await supabase
-      .from('user-demographics')
-      .select('attending')
-      .eq('id', user.id)
-      .single();
+      // this basically grabs the attending array: ["56", "37", ...]
+      // TODO: for each ID, grab the event information and populate onto the dashboard.
 
-      console.log(eventData.attending);
-      eventData.attending.forEach(async element => {
-        console.log(element)
+      // const { data: eventData, error: userError } = await supabase
+      // .from('user-demographics')
+      // .select('attending')
+      // .eq('id', user.id)
+      // .single();
 
-        const { invEvent, err } = await supabase
-          .from('events')
-          .select()
-          .eq('id', element)
-          .single();
-
-        response.push(invEvent)
-
-      });
-      
-
+    
       const data = await response.json();
       setEvents(data);
     } catch (error) {
       console.error('Error fetching events:', error.message);
     }
   }
-  // fetchUserEvents();
-  setTimeout(() => {
-    fetchUserEvents();
-  }, 300000);
+  fetchUserEvents();
 
   
   return (

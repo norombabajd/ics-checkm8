@@ -180,7 +180,7 @@ app.get('/api/user-events', async (req, res) => {
   try {
     const val = req.headers.uuid;
    
-    const { data, error } = await supabase
+    const { createdEvents, createdErr } = await supabase
       .from('events')
       .select()
       .eq('creator', val);
@@ -188,7 +188,7 @@ app.get('/api/user-events', async (req, res) => {
     if (error) {
       throw new Error(error.message);
     } else {
-      res.json(data);
+      res.json(events);
     }
   } catch (error) {
     console.error('Error fetching events:', error.message);

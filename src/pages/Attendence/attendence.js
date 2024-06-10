@@ -30,7 +30,7 @@ function Attendance() {
             const response = await fetch('http://localhost:4000/api/user-events', {
                 method: 'GET',
                 headers: {
-                    uuid: user?.id || null,
+                    uuid: user.id || null,
                     
                 },
             });
@@ -74,20 +74,36 @@ function Attendance() {
 
     async function add_attendee(email, eventID) {
         try {
-            const { data: userData, error: userError } = await supabase
+            const { data: eventData, error: userError } = await supabase
+                .from('user-demographics')
+                .select('attending')
+                .eq('email', email)
+                .single();
+            
+            if (userError) {
+                throw userError;
+            }
+            if (!eventData) {
+                console.error('User not found with the email:', email);
+                return;
+            }
+
+            if (!eventData.attending.includes(parseInt(eventID))){
+                const updatedAttending = eventData.attending ? [...eventData.attending, eventID] : [eventID];
+                const { updatedData, error: updateError } = await supabase
+                    .from('user-demographics')
+                    .update({ attending: updatedAttending })
+                    .eq('email', email);            
+            }
+
+            const { data: userData, error: err } = await supabase
                 .from('user-demographics')
                 .select('id')
                 .eq('email', email)
                 .single();
 
-            if (userError) {
-                throw userError;
-            }
-            if (!userData) {
-                console.error('User not found with the email:', email);
-                return;
-            }
             const userID = userData.id;
+
             const { data , error: insertError } = await supabase
                 .from('attendee')
                 .insert({ userID: userID, eventID: eventID, checkedIn: false });
@@ -101,18 +117,6 @@ function Attendance() {
             console.log("Error while adding attendee: ", error);
         }
     }
-
-
-    // const addAttendee = () => {
-    //     if (attendeeName.trim() !== '') {
-    //         const newAttendee = {
-    //             name: attendeeName,
-    //             timestamp: new Date().toLocaleString()
-    //         };
-    //         setAttendees([...attendees, newAttendee]);
-    //         setAttendeeName('');
-    //     }
-    // };
 
     const removeAttendee = async (index) => {
     try {
