@@ -72,19 +72,47 @@ function Attendance() {
         }
     }
 
+    async function add_attendee(email, eventID) {
+        try {
+            const { data: userData, error: userError } = await supabase
+                .from('user-demographics')
+                .select('id')
+                .eq('email', email)
+                .single();
 
+            if (userError) {
+                throw userError;
+            }
+            if (!userData) {
+                console.error('User not found with the email:', email);
+                return;
+            }
+            const userID = userData.id;
+            const { data , error: insertError } = await supabase
+                .from('attendee')
+                .insert({ userID: userID, eventID: eventID, checkedIn: false });
+    
+            if (insertError) {
+                throw insertError;
+            }
 
-
-    const addAttendee = () => {
-        if (attendeeName.trim() !== '') {
-            const newAttendee = {
-                name: attendeeName,
-                timestamp: new Date().toLocaleString()
-            };
-            setAttendees([...attendees, newAttendee]);
-            setAttendeeName('');
+            console.log('successfully added attendee');
+        } catch (error) {
+            console.log("Error while adding attendee: ", error);
         }
-    };
+    }
+
+
+    // const addAttendee = () => {
+    //     if (attendeeName.trim() !== '') {
+    //         const newAttendee = {
+    //             name: attendeeName,
+    //             timestamp: new Date().toLocaleString()
+    //         };
+    //         setAttendees([...attendees, newAttendee]);
+    //         setAttendeeName('');
+    //     }
+    // };
 
     const removeAttendee = async (index) => {
     try {
@@ -154,7 +182,7 @@ function Attendance() {
                         onChange={(e) => setAttendeeName(e.target.value)}
                         placeholder="Enter attendee email"
                     />
-                    <button class='add-button' onClick={addAttendee}>Add Attendee</button>
+                    <button class='add-button' onClick={() => add_attendee(attendeeName, currentEventID)}>Add Attendee</button>
                 </div>
 
                 <h2 className='font-bold mt-5'>Attendees</h2>
