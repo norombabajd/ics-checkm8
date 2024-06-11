@@ -74,6 +74,18 @@ body {
   padding: 20px;
 }
 
+.attendingevents-container {
+  margin-top: 50px;
+}
+
+.myevents-container {
+  margin-top: 50px;
+}
+
+h2 {
+  margin-bottom: 15px;
+}
+
 
 .event-card {
   border-radius: 8px;

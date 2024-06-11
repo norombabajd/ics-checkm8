@@ -63,59 +63,72 @@ const EventCard = ({ event, onDelete }) => {
 
 const Dashboard = () => {
   const [events, setEvents] = useState([]);
+  const [attendingEvents, setAttendingEvents] = useState([]);
+  const [createdEvents, setCreatedEVents] = useState([]);
   const handleDeleteEvent = (deletedEventId) => {
     setEvents(events.filter((event) => event.id !== deletedEventId));
     //fetchUserEvents();
   };
 
-  useEffect(() => {async function fetchUserEvents() {
-    try {
-      const { data: { user }, error } = await supabase.auth.getUser();
-      if (error) {
-        throw error;
-      }
-
-      const { data: userData, error: userError } = await supabase
-        .from('user-demographics')
-        .select('attending')
-        .eq('id', user.id)
-        .single();
-          
-      if (userError) {
+  useEffect(() => {
+    async function fetchUserEvents() {
+      try {
+        const { data: { user }, error } = await supabase.auth.getUser();
+        if (error) {
+          throw error;
+        }
+  
+        const { data: userData, error: userError } = await supabase
+          .from('user-demographics')
+          .select('attending')
+          .eq('id', user.id)
+          .single();
+            
+        if (userError) {
           throw userError;
-      }
-
-      if (!userData) {
+        }
+  
+        if (!userData) {
           console.error('User not found with the ID:', user.id);
           return [];
-      }
-
-      const { attending } = userData;
-      console.log(attending);
-
-      if (!attending || attending.length === 0) {
-        console.log('User is not attending any events.');
-        return [];
-      }
-
-      // Fetch event details for each event attended by the user
-      const { data: eventsData, error: eventsError } = await supabase
+        }
+  
+        const { attending } = userData;
+        console.log(attending);
+  
+        if (!attending || attending.length === 0) {
+          console.log('User is not attending any events.');
+        }
+  
+        // Fetch events created by the user
+        const { data: userEventsData, error: userEventsError } = await supabase
           .from('events')
-          .select('name', 'location', 'start', 'end', 'creator', 'matureAudience', 'earlyCheck')
+          .select('*')
+          .eq('creator', user.id);
+  
+        if (userEventsError) {
+          throw userEventsError;
+        }
+  
+        // Fetch event details for events user is attending
+        const { data: attendingEventsData, error: attendingEventsError } = await supabase
+          .from('events')
+          .select('*')
           .in('id', attending);
-
-      if (eventsError) {
-          throw eventsError;
+  
+        if (attendingEventsError) {
+          throw attendingEventsError;
+        }
+        
+        setAttendingEvents(attendingEventsData);
+        setCreatedEVents(userEventsData);
+      } catch (error) {
+        console.error('Error fetching events:', error.message);
       }
-
-      setEvents(eventsData);
-
-    } catch (error) {
-      console.error('Error fetching events:', error.message);
     }
-  }
-  fetchUserEvents();
-}, []); 
+  
+    fetchUserEvents();
+  }, []);
 
   
   return (
@@ -128,21 +141,31 @@ const Dashboard = () => {
           <Link to="/create" className="create-event">New Event</Link>
           <Link to="/history" className="create-event">History</Link>
           <Link to="/signout" className="create-event">Sign-out</Link>
-      </div>
-        
-
-
+        </div>
       </div>
 
       <div className="events-container">
-        <div className="grid gap-4 lg:grid-cols-3 sm:grid-cols-2">
-          {events.map((event) => (
-            <EventCard key={event.id} event={event} onDelete={handleDeleteEvent} />
-          ))}
+        <div className="myevents-container">
+        <h2>Events Created by You</h2>
+          <div className="grid gap-4 lg:grid-cols-3 sm:grid-cols-2">
+              {createdEvents.map((event) => (
+                <EventCard key={event.id} event={event} onDelete={handleDeleteEvent} />
+              ))}
+          </div>
+        </div>
+
+        <div className="attendingevents-container">
+        <h2>Events Attending</h2>
+          <div className="grid gap-4 lg:grid-cols-3 sm:grid-cols-2">
+              {attendingEvents.map((event) => (
+                <EventCard key={event.id} event={event} onDelete={handleDeleteEvent} />
+              ))}
+          </div>
         </div>
       </div>
     </div>
   );
+  
 }
 
 export default Dashboard;
