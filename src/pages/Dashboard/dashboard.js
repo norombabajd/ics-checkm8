@@ -65,42 +65,60 @@ const Dashboard = () => {
   const [events, setEvents] = useState([]);
   const handleDeleteEvent = (deletedEventId) => {
     setEvents(events.filter((event) => event.id !== deletedEventId));
-    fetchUserEvents()
+    //fetchUserEvents();
   };
-  async function fetchUserEvents() {
+
+  useEffect(() => {async function fetchUserEvents() {
     try {
       const { data: { user }, error } = await supabase.auth.getUser();
       if (error) {
         throw error;
       }
+      console.log(user);
 
-      const response = await fetch('http://localhost:4000/api/user-events', {
-        method: 'GET',
-        headers: {
-          uuid: user.id || null,
-        },
-      });
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
+      const { data: userData, error: userError } = await supabase
+        .from('user-demographics')
+        .select('attending')
+        .eq('id', user.id)
+        .single();
+          
+      if (userError) {
+          throw userError;
       }
-      
-      // this basically grabs the attending array: ["56", "37", ...]
-      // TODO: for each ID, grab the event information and populate onto the dashboard.
 
-      // const { data: eventData, error: userError } = await supabase
-      // .from('user-demographics')
-      // .select('attending')
-      // .eq('id', user.id)
-      // .single();
+      if (!userData) {
+          console.error('User not found with the ID:', user.id);
+          return [];
+      }
 
-    
-      const data = await response.json();
-      setEvents(data);
+      const { attending } = userData;
+      console.log(attending);
+
+      if (!attending || attending.length === 0) {
+        console.log('User is not attending any events.');
+        return [];
+      }
+
+      // Fetch event details for each event attended by the user
+      const { data: eventsData, error: eventsError } = await supabase
+          .from('events')
+          .select('name', 'location', 'start', 'end', 'creator', 'matureAudience', 'earlyCheck')
+          .in('id', attending);
+
+      if (eventsError) {
+          throw eventsError;
+      }
+
+      console.log('below is fetching users events');
+      console.log(eventsData);
+      setEvents(eventsData);
+
     } catch (error) {
       console.error('Error fetching events:', error.message);
     }
   }
   fetchUserEvents();
+}, []); 
 
   
   return (
