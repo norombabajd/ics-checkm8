@@ -55,7 +55,9 @@ const EventCard = ({ event, onDelete }) => {
         ) : (
           <Link className="cardbutton" to="/history">History</Link>
         )}
-        <a className="cardbutton" onClick={handleDelete}>Delete Event</a>
+        {event.creator === userID ? (
+          <a className="cardbutton" onClick={handleDelete}>Delete Event</a>
+        ): (<a></a>)}
       </div>
     </div>
   );
@@ -158,7 +160,7 @@ const Dashboard = () => {
         <h2>Events Attending</h2>
           <div className="grid gap-4 lg:grid-cols-3 sm:grid-cols-2">
               {attendingEvents.map((event) => (
-                <EventCard key={event.id} event={event} onDelete={handleDeleteEvent} />
+                <EventCard key={event.id} event={event} />
               ))}
           </div>
         </div>
