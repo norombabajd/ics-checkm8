@@ -65,61 +65,60 @@ const Dashboard = () => {
   const [events, setEvents] = useState([]);
   const handleDeleteEvent = (deletedEventId) => {
     setEvents(events.filter((event) => event.id !== deletedEventId));
-    //fetchUserEvents()
+    //fetchUserEvents();
   };
 
-  useEffect (() => {
-    async function fetchUserEvents() {
-      try {
-        const { data: { user }, error } = await supabase.auth.getUser();
-        if (error) {
-          throw error;
-        }
-        console.log(user);
-
-        const { data: userData, error: userError } = await supabase
-          .from('user-demographics')
-          .select('attending')
-          .eq('id', user.id)
-          .single();
-            
-        if (userError) {
-            throw userError;
-        }
-
-        if (!userData) {
-            console.error('User not found with the ID:', user.id);
-            return [];
-        }
-
-        const { attending } = userData;
-        console.log(attending);
-
-        if (!attending || attending.length === 0) {
-          console.log('User is not attending any events.');
-          return [];
-        }
-
-        // Fetch event details for each event attended by the user
-        const { data: eventsData, error: eventsError } = await supabase
-            .from('events')
-            .select('name', 'location', 'start', 'end', 'creator', 'matureAudience', 'earlyCheck')
-            .in('id', attending);
-
-        if (eventsError) {
-            throw eventsError;
-        }
-
-        console.log('below is fetching users events');
-        console.log(eventsData);
-        setEvents(eventsData);
-
-      } catch (error) {
-        console.error('Error fetching events:', error.message);
+  useEffect(() => {async function fetchUserEvents() {
+    try {
+      const { data: { user }, error } = await supabase.auth.getUser();
+      if (error) {
+        throw error;
       }
-    };
-    fetchUserEvents();
-  }, []);
+      console.log(user);
+
+      const { data: userData, error: userError } = await supabase
+        .from('user-demographics')
+        .select('attending')
+        .eq('id', user.id)
+        .single();
+          
+      if (userError) {
+          throw userError;
+      }
+
+      if (!userData) {
+          console.error('User not found with the ID:', user.id);
+          return [];
+      }
+
+      const { attending } = userData;
+      console.log(attending);
+
+      if (!attending || attending.length === 0) {
+        console.log('User is not attending any events.');
+        return [];
+      }
+
+      // Fetch event details for each event attended by the user
+      const { data: eventsData, error: eventsError } = await supabase
+          .from('events')
+          .select('name', 'location', 'start', 'end', 'creator', 'matureAudience', 'earlyCheck')
+          .in('id', attending);
+
+      if (eventsError) {
+          throw eventsError;
+      }
+
+      console.log('below is fetching users events');
+      console.log(eventsData);
+      setEvents(eventsData);
+
+    } catch (error) {
+      console.error('Error fetching events:', error.message);
+    }
+  }
+  fetchUserEvents();
+}, []); 
 
   
   return (
