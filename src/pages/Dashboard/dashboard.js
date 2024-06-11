@@ -51,7 +51,7 @@ const EventCard = ({ event, onDelete }) => {
       <div className="cardbuttonGrid mt-2">
         <Link className="cardbutton" to="/check-in">Check In</Link>
         {event.creator === userID ? (
-          <Link className="cardbutton" to={"/attendance"}  >Attendance</Link>
+          <Link className="cardbutton" to="/attendance"  >Attendance</Link>
         ) : (
           <Link className="cardbutton" to="/history">History</Link>
         )}
@@ -74,7 +74,6 @@ const Dashboard = () => {
       if (error) {
         throw error;
       }
-      console.log(user);
 
       const { data: userData, error: userError } = await supabase
         .from('user-demographics')
@@ -109,8 +108,6 @@ const Dashboard = () => {
           throw eventsError;
       }
 
-      console.log('below is fetching users events');
-      console.log(eventsData);
       setEvents(eventsData);
 
     } catch (error) {
